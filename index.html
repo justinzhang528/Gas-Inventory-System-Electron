@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Justin Testing</title>
+    <script>
+      if (typeof module === "object") {
+        window.module = module;
+            module = undefined;
+      }
+    </script>
+    <!-- <script src="./renderer.js"></script> -->
+    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
+    <script>
+      if (window.module) module = window.module;
+    </script>
+  </head>
+  <body>
+    <h1>Testing</h1>
+    <label id="my-label"></label>
+    <br>
+    <button type="button" id="export_btn" onclick="on_export_func()">Export</button>
+    <button type="button" class="btn btn-danger" id="exit_btn" onclick="on_exit_func()">Exit</button>
+    <button type="button" id="db_conn_btn" onclick="on_conn_db()">ConnectDB</button>
+  </body>
+
+  <script>
+    function on_export_func(){
+      $('#my-label').css("color","red")
+    }
+
+
+    function on_conn_db(){
+      alert("connection start")
+      // Add the credentials to access your database
+      var mysql      = require('mysql');
+      var connection = mysql.createConnection({
+        host     : '127.0.0.1',
+        port     : '3306',
+        user     : 'justin',
+        password : 'zhang',
+        database : 'justin',
+        options: {
+          trustedConnection: true
+        }
+      });   
+      
+      // connect to mysql
+      connection.connect(function(err) {
+          // in case of error
+          if(err){
+              console.log(err.code);
+              console.log(err.fatal);
+              alert("connection fail")
+          } else {
+              alert("connection ok")
+          }
+      });
+
+      var sql = 'SELECT * FROM `person` WHERE 1';
+      connection.query(sql, function (error, results, fields) {
+        if (error) console.log(error.code);
+        else {
+            console.log(results);
+            alert(results[0].name); 
+        }
+      });
+
+      // Close the connection
+      connection.end(function(){
+          // The connection has been closed
+       });
+    }
+
+    function on_exit_func(){
+      const {ipcRenderer} = require('electron')
+      ipcRenderer.send('closeApp')
+    }
+
+  </script>
+</html>
