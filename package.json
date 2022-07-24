@@ -24,7 +24,10 @@
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.6.0",
     "jsdom": "^19.0.0",
-    "mysql": "^2.18.1"
+    "mssql": "^8.1.2",
+    "mysql": "^2.18.1",
+    "pg": "^8.7.3",
+    "postgresql": "^0.0.1"
   },
   "config": {
     "forge": {

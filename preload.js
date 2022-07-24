@@ -7,5 +7,4 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   replaceText('my-label','Replace ok!')
-  document.getElementById('my-label').color
 })

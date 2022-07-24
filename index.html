@@ -12,7 +12,6 @@
             module = undefined;
       }
     </script>
-    <!-- <script src="./renderer.js"></script> -->
     <script type="text/javascript" src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
     <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
@@ -26,60 +25,37 @@
     <br>
     <button type="button" id="export_btn" onclick="on_export_func()">Export</button>
     <button type="button" class="btn btn-danger" id="exit_btn" onclick="on_exit_func()">Exit</button>
-    <button type="button" id="db_conn_btn" onclick="on_conn_db()">ConnectDB</button>
+    <button type="button" id="db_conn_btn" onclick="loadAll()">ConnectDB</button>
   </body>
 
+  <script src="./renderer.js"></script>
+  <script src="./dbconn.js"></script>
   <script>
-    function on_export_func(){
-      $('#my-label').css("color","red")
-    }
-
 
     function on_conn_db(){
       alert("connection start")
-      // Add the credentials to access your database
-      var mysql      = require('mysql');
-      var connection = mysql.createConnection({
-        host     : '127.0.0.1',
-        port     : '3306',
-        user     : 'justin',
-        password : 'zhang',
-        database : 'justin',
-        options: {
-          trustedConnection: true
-        }
-      });   
-      
-      // connect to mysql
-      connection.connect(function(err) {
-          // in case of error
-          if(err){
-              console.log(err.code);
-              console.log(err.fatal);
-              alert("connection fail")
-          } else {
-              alert("connection ok")
-          }
-      });
+      // // Add the credentials to access your database
+      // const { Pool, Client } = require('pg')
+      // const client = new Client({
+      //   host     : '172.29.167.98',
+      //   port     : '5432',
+      //   user     : 'postgres',
+      //   password : 'admin',
+      //   database : 'justin_test',
+      // });
+      // client.connect()
 
-      var sql = 'SELECT * FROM `person` WHERE 1';
-      connection.query(sql, function (error, results, fields) {
-        if (error) console.log(error.code);
-        else {
-            console.log(results);
-            alert(results[0].name); 
-        }
-      });
-
-      // Close the connection
-      connection.end(function(){
-          // The connection has been closed
-       });
-    }
-
-    function on_exit_func(){
-      const {ipcRenderer} = require('electron')
-      ipcRenderer.send('closeApp')
+      // client.query('SELECT * from person', (err, res) => {
+      //   if(err){
+      //     alert('error')
+      //   } else {
+      //     alert('success')
+      //     for(let row of res.rows){
+      //       console.log(row);
+      //     }
+      //   }
+      //   client.end() 
+      // })
     }
 
   </script>
