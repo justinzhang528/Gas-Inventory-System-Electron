@@ -20,43 +20,27 @@
     </script>
   </head>
   <body>
-    <h1>Testing</h1>
-    <label id="my-label"></label>
-    <br>
-    <button type="button" id="export_btn" onclick="on_export_func()">Export</button>
-    <button type="button" class="btn btn-danger" id="exit_btn" onclick="on_exit_func()">Exit</button>
-    <button type="button" id="db_conn_btn" onclick="loadAll()">ConnectDB</button>
+    <div class="mx-3">
+      <h1 id="heading">Testing</h1>
+      <br>
+      <button type="button" class="btn btn-primary" id="change_color" onclick="on_change_color_func()">Change Color</button>
+      <button type="button" class="btn btn-primary" id="db_conn_btn" onclick="load_all()">ConnectDB</button>
+      <button type="button" class="btn btn-danger" id="exit_btn" onclick="on_exit_func()">Exit</button>
+      <br>
+      <div class="form-group">
+        <label for="hardware">Hardware:</label>
+        <input type="text" class="form-control" id="hardware_text">
+        <button type="button" class="btn btn-warning mt-2" id="save_btn" onclick="on_save_func()">Save</button>
+      </div>
+      <div class="form-group">
+        <select class="form-select" aria-label="Default select example" id="hardware_select">
+        </select>
+      </div>
+
+    </div>
+
   </body>
 
   <script src="./renderer.js"></script>
   <script src="./dbconn.js"></script>
-  <script>
-
-    function on_conn_db(){
-      alert("connection start")
-      // // Add the credentials to access your database
-      // const { Pool, Client } = require('pg')
-      // const client = new Client({
-      //   host     : '172.29.167.98',
-      //   port     : '5432',
-      //   user     : 'postgres',
-      //   password : 'admin',
-      //   database : 'justin_test',
-      // });
-      // client.connect()
-
-      // client.query('SELECT * from person', (err, res) => {
-      //   if(err){
-      //     alert('error')
-      //   } else {
-      //     alert('success')
-      //     for(let row of res.rows){
-      //       console.log(row);
-      //     }
-      //   }
-      //   client.end() 
-      // })
-    }
-
-  </script>
 </html>

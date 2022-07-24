@@ -15,6 +15,6 @@ function on_exit_func(){
  }
 
 
-function on_export_func(){
-    $('#my-label').css("color","red")
+function on_change_color_func(){
+    $('#heading').css("color","red")
 }

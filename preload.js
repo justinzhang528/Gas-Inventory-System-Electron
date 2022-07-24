@@ -6,5 +6,5 @@ window.addEventListener('DOMContentLoaded', () => {
     if (element) element.innerText = text
   }
 
-  replaceText('my-label','Replace ok!')
+  replaceText('heading','Replace ok!')
 })
