@@ -1,10 +1,10 @@
 var mssql = require('mssql');
 
 var sqlConfig = {
-    server: '172.29.167.98',
+    server: '172.26.43.216',
     database: 'master',
     user: 'sa',
-    password: 'justinzhang515',
+    password: 'admin12345',
     port: 1433,
     options: {
         trustedConnection: true,
@@ -79,8 +79,6 @@ function fill_dropdownlist_option(){
       console.log(err);
   });
 }
-
-fill_dropdownlist_option()
 
 
 /*

@@ -5,7 +5,7 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Justin Testing</title>
+    <title>Gas Inventory System</title>
     <script>
       if (typeof module === "object") {
         window.module = module;
@@ -13,34 +13,241 @@
       }
     </script>
     <script type="text/javascript" src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.dateTime.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.editor.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/editor.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
     <script>
       if (window.module) module = window.module;
     </script>
   </head>
   <body>
-    <div class="mx-3">
-      <h1 id="heading">Testing</h1>
-      <br>
-      <button type="button" class="btn btn-primary" id="change_color" onclick="on_change_color_func()">Change Color</button>
-      <button type="button" class="btn btn-primary" id="db_conn_btn" onclick="load_all()">ConnectDB</button>
-      <button type="button" class="btn btn-danger" id="exit_btn" onclick="on_exit_func()">Exit</button>
-      <br>
-      <div class="form-group">
-        <label for="hardware">Hardware:</label>
-        <input type="text" class="form-control" id="hardware_text">
-        <button type="button" class="btn btn-warning mt-2" id="save_btn" onclick="on_save_func()">Save</button>
-      </div>
-      <div class="form-group">
-        <select class="form-select" aria-label="Default select example" id="hardware_select">
-        </select>
-      </div>
 
+    <div class="container p-5">
+      <div class="row row-cols-md-1 g-4">
+        <div class="col">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title fs-2 text-center">
+                <h1 id="heading">Gas Inventory System</h1>
+              </div>
+            </div>
+            <div class="card-body m-2 fs-5 text-center">
+              <div class="btn-group">
+                <button id="sales_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sales
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#salesNewModal" data-bs-whatever="@mdo">New</a></li>
+                  <li><a class="dropdown-item" href="#">Edit</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <button id="return_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Return
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">New</a></li>
+                  <li><a class="dropdown-item" href="#">Edit</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <button id="customer_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  Customer
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customerNewModal" data-bs-whatever="@mdo">New</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customerTableModal" data-bs-whatever="@mdo">Edit</a></li>
+                </ul>
+              </div>              
+              <button type="button" class="btn btn-primary" id="export_btn" onclick="">Export by excel</button>
+              <button type="button" class="btn btn-warning" id="exit_btn" onclick="on_exit_func()">Exit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="salesNewModal" tabindex="-1" aria-labelledby="salesNewModal" aria-hidden="true">
+      <div class="modal-dialog row row-cols-md-1 g-4">
+        <div class="modal-content col">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create New Sales</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="mb-3 w-50">
+                  <label for="sales_date" class="col-form-label">Date:</label>
+                  <input type="date" class="form-control" id="sales_date">
+                </div>
+                <div class="mb-3 w-50">
+                  <label for="sales_name_select" class="col-form-label">Name/Company:</label>
+                  <select class="form-select" name="sales_name_select" id="sales_name_select">
+                    <option value="" selected></option>
+                  </select>      
+                </div>
+                <div class="mb-3 w-50">
+                  <label for="sales_category_select" class="col-form-label">Product Category:</label>
+                  <select class="form-select" name="sales_category_select" id="sales_category_select">
+                    <option value="" selected></option>
+                    <option value="1">Oxygen(O2)</option>
+                    <option value="2">Nitrogen(N2)</option>
+                    <option value="3">Carbon Dioxide(CO2)</option>
+                    <option value="4">Argon(Ar)</option>
+                    <option value="5">Acetylene(C2H2)</option>
+                    <option value="0">Other</option>
+                  </select> 
+                </div>
+                <div class="mb-3 w-25">
+                  <label for="sales_weight_select" class="col-form-label">Gas Weight:</label>
+                  <select class="form-select" name="sales_weight_select" id="sales_weight_select">
+                    <option value="" selected></option>
+                    <option value="15">15kg</option>
+                    <option value="20">20kg</option>
+                    <option value="48">48kg</option>
+                    <option value="0">Other</option>
+                  </select> 
+                </div>
+                <div class="mb-3 w-25">
+                  <label for="sales_quantity" class="col-form-label">Quantity:</label>
+                  <input type="number" class="form-control" id="sales_quantity">
+                </div>
+                <div class="mb-3">
+                  <label for="sales_remark" class="col-form-label">Remark:</label>
+                  <textarea class="form-control" id="sales_remark"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="sales_save_btn" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="customerNewModal" tabindex="-1" aria-labelledby="customerNewModal" aria-hidden="true">
+      <div class="modal-dialog row row-cols-md-1 g-4">
+        <div class="modal-content col">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create New Customer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="mb-3">
+                  <label for="customer_new_name" class="col-form-label">Name/Company:</label>
+                  <input type="text" class="form-control" id="customer_new_name">
+                </div>
+                <div class="mb-3">
+                  <label for="customer_new_address" class="col-form-label">Address:</label>
+                  <textarea class="form-control" id="customer_new_address"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="customer_new_number" class="col-form-label">Contact Number:</label>
+                  <input type="text" class="form-control" id="customer_new_number">
+                </div>
+                <div class="mb-3">
+                  <label for="customer_new_remark" class="col-form-label">Remark:</label>
+                  <textarea class="form-control" id="customer_new_remark"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="customer_new_save_btn" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="customerEditModal" tabindex="-1" aria-labelledby="customerEditModal" aria-hidden="true">
+      <div class="modal-dialog row row-cols-md-1 g-4">
+        <div class="modal-content col">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create New Customer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="mb-3">
+                  <label for="customer_edit_name" class="col-form-label">Name/Company:</label>
+                  <input type="text" class="form-control" id="customer_edit_name">
+                </div>
+                <div class="mb-3">
+                  <label for="customer_edit_address" class="col-form-label">Address:</label>
+                  <textarea class="form-control" id="customer_edit_address"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="customer_edit_number" class="col-form-label">Contact Number:</label>
+                  <input type="text" class="form-control" id="customer_edit_number">
+                </div>
+                <div class="mb-3">
+                  <label for="customer_edit_remark" class="col-form-label">Remark:</label>
+                  <textarea class="form-control" id="customer_edit_remark"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button id="customer_edit_save_btn" type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="customerTableModal" tabindex="-1" aria-labelledby="customerTableModal" aria-hidden="true">
+      <div class="modal-dialog row row-cols-md-1 g-4">
+        <div class="modal-content col">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Customer</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table id="customerTable" class="table table-striped" style="width:100%">
+              <thead>
+                  <tr>
+                    <th class="fade">Id</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    <th>Remark</th>
+                  </tr>
+              </thead>
+              <tfoot>
+                  <tr>
+                    <th class="fade">Id</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Contact Number</th>
+                    <th>Remark</th>
+                  </tr>
+              </tfoot>
+          </table>
+          </div>
+          
+        </div>
+      </div>
     </div>
 
   </body>
 
   <script src="./renderer.js"></script>
-  <script src="./dbconn.js"></script>
+  <!-- <script src="./dbconn.js"></script> -->
+  <script src="./datatable.js"></script>
 </html>
