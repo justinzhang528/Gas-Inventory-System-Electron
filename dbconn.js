@@ -1,10 +1,11 @@
 var mssql = require('mssql');
+const dbinfo= require('./dbinfo.json'); 
 
 var sqlConfig = {
-    server: '172.26.43.216',
-    database: 'master',
-    user: 'sa',
-    password: 'admin12345',
+    server: dbinfo.server,
+    database: dbinfo.database,
+    user: dbinfo.user,
+    password: dbinfo.password,
     port: 1433,
     options: {
         trustedConnection: true,

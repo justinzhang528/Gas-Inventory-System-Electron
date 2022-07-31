@@ -11,18 +11,14 @@
         window.module = module;
             module = undefined;
       }
-    </script>
-    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.slim.min.js"></script>
+    </script>    
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"> 
+    <!-- <script type="text/javascript" src="./node_modules/jquery/dist/jquery.slim.min.js"></script> -->
+    <link rel="stylesheet" href="./css/kendo.common-material.min.css">
+    <link rel="stylesheet" href="./css/kendo.material-main.min.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/kendo.all.min.js"></script>    
     <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/buttons.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.dateTime.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.editor.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/dataTables.select.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/editor.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap_datatable/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">    
     <script>
       if (window.module) module = window.module;
     </script>
@@ -40,58 +36,53 @@
               </div>
             </div>
             <div class="card-body m-2 fs-5 text-center">
-              <div class="btn-group">
-                <button id="sales_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  Sales
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#salesNewModal" data-bs-whatever="@mdo">New</a></li>
-                  <li><a class="dropdown-item" href="#">Edit</a></li>
-                </ul>
-              </div>
-              <div class="btn-group">
-                <button id="return_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  Return
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">New</a></li>
-                  <li><a class="dropdown-item" href="#">Edit</a></li>
-                </ul>
-              </div>
-              <div class="btn-group">
-                <button id="customer_dropdown" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  Customer
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customerNewModal" data-bs-whatever="@mdo">New</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customerTableModal" data-bs-whatever="@mdo">Edit</a></li>
-                </ul>
-              </div>              
-              <button type="button" class="btn btn-primary" id="export_btn" onclick="">Export by excel</button>
-              <button type="button" class="btn btn-warning" id="exit_btn" onclick="on_exit_func()">Exit</button>
+              <button id="salesBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Sales</button>
+              <button id="returnBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Return</button>
+              <button id="customerBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Customer</button>       
+              <button id="historyBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">History</button> 
+              <button type="button" class="k-button k-button-solid-secondary k-button-solid k-button-md k-rounded-md" id="exit_btn" onclick="on_exit_func()">Exit</button>
             </div>
           </div>
 
         </div>
       </div>
     </div>
+
+    <div class="container p-5 text-center">
+      <div id="salesInfo" style="display: none">
+        <button id="newSalesBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">New Sales</button>
+        <br><br>
+        <div id="salesGrid"></div>
+      </div>
+      <div id="returnInfo" style="display: none">
+        <button id="newReturnBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">New Return</button>
+        <br><br>
+        <div id="returnGrid"></div>
+      </div>
+      <div id="customerInfo" style="display: none">
+        <button id="newCustomerBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">New Customer</button>
+        <br><br>
+        <div id="customerGrid"></div>
+      </div>
+      <div id="historyInfo" style="display: none">        
+        <button id="exportBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Export</button>
+        <br><br>
+        <div id="historyGrid"></div>
+      </div>
+    </div>
     
     <div class="modal fade" id="salesNewModal" tabindex="-1" aria-labelledby="salesNewModal" aria-hidden="true">
       <div class="modal-dialog row row-cols-md-1 g-4">
         <div class="modal-content col">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create New Sales</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
           <div class="modal-body">
-            <form>
+            <form id="newSalesForm">
               <div class="row">
                 <div class="mb-3 w-50">
-                  <label for="sales_date" class="col-form-label">Date:</label>
-                  <input type="date" class="form-control" id="sales_date">
+                  <label for="salesDate" class="col-form-label">Date:</label>
+                  <input type="date" id="salesDate" name="salesDate" requierd>
                 </div>
                 <div class="mb-3 w-50">
-                  <label for="sales_name_select" class="col-form-label">Name/Company:</label>
+                  <label for="salesName" class="col-form-label">Name/Company:</label>
                   <select class="form-select" name="sales_name_select" id="sales_name_select">
                     <option value="" selected></option>
                   </select>      
@@ -137,117 +128,105 @@
       </div>
     </div>
 
-    <div class="modal fade" id="customerNewModal" tabindex="-1" aria-labelledby="customerNewModal" aria-hidden="true">
-      <div class="modal-dialog row row-cols-md-1 g-4">
-        <div class="modal-content col">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create New Customer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="row">
-                <div class="mb-3">
-                  <label for="customer_new_name" class="col-form-label">Name/Company:</label>
-                  <input type="text" class="form-control" id="customer_new_name">
-                </div>
-                <div class="mb-3">
-                  <label for="customer_new_address" class="col-form-label">Address:</label>
-                  <textarea class="form-control" id="customer_new_address"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="customer_new_number" class="col-form-label">Contact Number:</label>
-                  <input type="text" class="form-control" id="customer_new_number">
-                </div>
-                <div class="mb-3">
-                  <label for="customer_new_remark" class="col-form-label">Remark:</label>
-                  <textarea class="form-control" id="customer_new_remark"></textarea>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="customer_new_save_btn" type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
+    <div id="editSalesWindow" style="display: none">
+      <form id="editSalesForm">
+        <input type="text" id="editSalesId" name="editSalesId" style="display: none">
+        <p>        
+          <label for="editSalesDate">Date:</label>
+          <input type="date" id="editSalesDate" name="editSalesDate" required validationMessage="Date is required">
+        </p>
+        <p>        
+          <label for="editSalesName">Name/Company:</label>
+          <input type="text" id="editSalesName" name="editSalesName" required validationMessage="Name/Company is required">
+        </p>
+        <p>
+          <label for="editSalesCategory">Product Category:</label>
+          <select id="editSalesCategory" name="editSalesCategory" required validationMessage="Product Category is required">
+            <option value="" selected></option>
+            <option value="1">Oxygen(O2)</option>
+            <option value="2">Nitrogen(N2)</option>
+            <option value="3">Carbon Dioxide(CO2)</option>
+            <option value="4">Argon(Ar)</option>
+            <option value="5">Acetylene(C2H2)</option>
+            <option value="0">Other</option>
+          </select> 
+        </p>
+        <p>
+          <label for="editSalesWeight">Gas Weight(KG):</label>
+          <select id="editSalesWeight" name="editSalesWeight" required validationMessage="Gas Weight is required">
+            <option value="" selected></option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="48">48</option>
+            <option value="0">Other</option>
+          </select>
+        </p>
+        <p>
+          <label for="editSalesQuantity">Cylinders Qty:</label>
+          <input type="number" id="editSalesQuantity" name="editSalesQuantity" required validationMessage="Cylinders Qty is required">
+        </p>
+        <p>
+          <label for="editSalesRemark">Remark:</label>
+          <input type="text" id="editSalesRemark" name="editSalesRemark"></textarea>
+        </p>
+      </form>
+      <button id="saveEditSalesBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
     </div>
 
-    <div class="modal fade" id="customerEditModal" tabindex="-1" aria-labelledby="customerEditModal" aria-hidden="true">
-      <div class="modal-dialog row row-cols-md-1 g-4">
-        <div class="modal-content col">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create New Customer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="row">
-                <div class="mb-3">
-                  <label for="customer_edit_name" class="col-form-label">Name/Company:</label>
-                  <input type="text" class="form-control" id="customer_edit_name">
-                </div>
-                <div class="mb-3">
-                  <label for="customer_edit_address" class="col-form-label">Address:</label>
-                  <textarea class="form-control" id="customer_edit_address"></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="customer_edit_number" class="col-form-label">Contact Number:</label>
-                  <input type="text" class="form-control" id="customer_edit_number">
-                </div>
-                <div class="mb-3">
-                  <label for="customer_edit_remark" class="col-form-label">Remark:</label>
-                  <textarea class="form-control" id="customer_edit_remark"></textarea>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="customer_edit_save_btn" type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
+
+    <div id="newCustomerWindow" style="display: none">
+      <form id="newCustomerForm">
+        <p>        
+          <label for="newCustomerName">Name/Company:</label>
+          <input type="text" id="newCustomerName" name="newCustomerName" required validationMessage="Name/Company is required">
+        </p>
+        <p>
+          <label for="newCustomerAddress">Address:</label>
+          <input type="text" id="newCustomerAddress" name="newCustomerAddress" required validationMessage="Address is required">
+        </p>
+        <p>
+          <label for="newCustomerNumber">Contact Number:</label>
+          <input type="number" id="newCustomerNumber" name="newCustomerNumber" required validationMessage="Contact Number is required">
+        </p>
+        <p>
+          <label for="newCustomerRemark">Remark:</label>
+          <input type="text" id="newCustomerRemark" name="newCustomerRemark"></textarea>
+        </p>
+      </form>
+      <button id="saveNewCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
     </div>
 
-    <div class="modal fade" id="customerTableModal" tabindex="-1" aria-labelledby="customerTableModal" aria-hidden="true">
-      <div class="modal-dialog row row-cols-md-1 g-4">
-        <div class="modal-content col">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Customer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <table id="customerTable" class="table table-striped" style="width:100%">
-              <thead>
-                  <tr>
-                    <th class="fade">Id</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Contact Number</th>
-                    <th>Remark</th>
-                  </tr>
-              </thead>
-              <tfoot>
-                  <tr>
-                    <th class="fade">Id</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Contact Number</th>
-                    <th>Remark</th>
-                  </tr>
-              </tfoot>
-          </table>
-          </div>
-          
-        </div>
-      </div>
+
+    <div id="editCustomerWindow" style="display: none">
+      <form id="editCustomerForm">
+        <input type="text" id="editCustomerId" name="editCustomerId" style="display: none">
+        <p>        
+          <label for="editCustomerName">Name/Company:</label>
+          <input type="text" id="editCustomerName" name="editCustomerName" required validationMessage="Name/Company is required">
+        </p>
+        <p>
+          <label for="editCustomerAddress">Address:</label>
+          <input type="text" id="editCustomerAddress" name="editCustomerAddress" required validationMessage="Address is required">
+        </p>
+        <p>
+          <label for="editCustomerNumber">Contact Number:</label>
+          <input type="number" id="editCustomerNumber" name="editCustomerNumber" required validationMessage="Contact Number is required">
+        </p>
+        <p>
+          <label for="editCustomerRemark">Remark:</label>
+          <input type="text" id="editCustomerRemark" name="editCustomerRemark"></textarea>
+        </p>
+      </form>
+      <button id="saveEditCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
     </div>
+    
 
   </body>
 
   <script src="./renderer.js"></script>
-  <!-- <script src="./dbconn.js"></script> -->
-  <script src="./datatable.js"></script>
+  <script src="./dbconn.js"></script>
+  <script src="./customer.js"></script>
+  <script src="./sales.js"></script>
+  <script src="./return.js"></script>
+  <script src="./history.js"></script>
 </html>
