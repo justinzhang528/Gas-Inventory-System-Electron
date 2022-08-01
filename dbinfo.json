@@ -1,6 +1,6 @@
 {
-	"server": "172.29.167.98",
+	"server": "172.26.43.216",
 	"database" : "master",
 	"user": "sa",
-	"password": "justinzhang515"
+	"password": "admin12345"
 }

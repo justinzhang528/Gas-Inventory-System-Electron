@@ -70,62 +70,140 @@
         <div id="historyGrid"></div>
       </div>
     </div>
-    
-    <div class="modal fade" id="salesNewModal" tabindex="-1" aria-labelledby="salesNewModal" aria-hidden="true">
-      <div class="modal-dialog row row-cols-md-1 g-4">
-        <div class="modal-content col">
-          <div class="modal-body">
-            <form id="newSalesForm">
-              <div class="row">
-                <div class="mb-3 w-50">
-                  <label for="salesDate" class="col-form-label">Date:</label>
-                  <input type="date" id="salesDate" name="salesDate" requierd>
-                </div>
-                <div class="mb-3 w-50">
-                  <label for="salesName" class="col-form-label">Name/Company:</label>
-                  <select class="form-select" name="sales_name_select" id="sales_name_select">
-                    <option value="" selected></option>
-                  </select>      
-                </div>
-                <div class="mb-3 w-50">
-                  <label for="sales_category_select" class="col-form-label">Product Category:</label>
-                  <select class="form-select" name="sales_category_select" id="sales_category_select">
-                    <option value="" selected></option>
-                    <option value="1">Oxygen(O2)</option>
-                    <option value="2">Nitrogen(N2)</option>
-                    <option value="3">Carbon Dioxide(CO2)</option>
-                    <option value="4">Argon(Ar)</option>
-                    <option value="5">Acetylene(C2H2)</option>
-                    <option value="0">Other</option>
-                  </select> 
-                </div>
-                <div class="mb-3 w-25">
-                  <label for="sales_weight_select" class="col-form-label">Gas Weight:</label>
-                  <select class="form-select" name="sales_weight_select" id="sales_weight_select">
-                    <option value="" selected></option>
-                    <option value="15">15kg</option>
-                    <option value="20">20kg</option>
-                    <option value="48">48kg</option>
-                    <option value="0">Other</option>
-                  </select> 
-                </div>
-                <div class="mb-3 w-25">
-                  <label for="sales_quantity" class="col-form-label">Quantity:</label>
-                  <input type="number" class="form-control" id="sales_quantity">
-                </div>
-                <div class="mb-3">
-                  <label for="sales_remark" class="col-form-label">Remark:</label>
-                  <textarea class="form-control" id="sales_remark"></textarea>
-                </div>
-              </div>
-            </form>
+
+    <div id="newSalesWindow" style="display: none">
+      <form id="newSalesForm">
+        <p>
+          <label for="newSalesDate">Date:</label>
+          <input type="date" id="newSalesDate" name="newSalesDate" required validationMessage="Date is required">
+        </p>
+        <p>
+          <label for="newSalesName">Name/Company:</label>
+          <select id="newSalesName" name="newSalesName" required validationMessage="Name/Company is required">
+          </select>    
+        </p>
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory">Product Category:</label>
+            <select id="newSalesCategory" name="newSalesCategory" required validationMessage="Product Category is required">
+            </select> 
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="sales_save_btn" type="button" class="btn btn-primary">Save</button>
+          <div class="col">
+            <label for="newSalesWeight">Gas Weight(KG):</label>
+            <select id="newSalesWeight" name="newSalesWeight" required validationMessage="Gas Weight is required">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity" name="newSalesQuantity" min="1" required validationMessage="Cylinders Qty is required">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark">Remark:</label>
+            <input type="text" id="newSalesRemark" name="newSalesRemark"></textarea>
+          </div>
+        </div>        
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory2">Product Category:</label>
+            <select id="newSalesCategory2" name="newSalesCategory2">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newSalesWeight2">Gas Weight(KG):</label>
+            <select id="newSalesWeight2" name="newSalesWeight2">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity2">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity2" name="newSalesQuantity2" min="1">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark2">Remark:</label>
+            <input type="text" id="newSalesRemark2" name="newSalesRemark2"></textarea>
           </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory3">Product Category:</label>
+            <select id="newSalesCategory3" name="newSalesCategory3">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newSalesWeight3">Gas Weight(KG):</label>
+            <select id="newSalesWeight3" name="newSalesWeight3">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity3">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity3" name="newSalesQuantity3" min="1">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark3">Remark:</label>
+            <input type="text" id="newSalesRemark3" name="newSalesRemark3"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory4">Product Category:</label>
+            <select id="newSalesCategory4" name="newSalesCategory4">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newSalesWeight4">Gas Weight(KG):</label>
+            <select id="newSalesWeight4" name="newSalesWeight4">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity4">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity4" name="newSalesQuantity4" min="1">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark4">Remark:</label>
+            <input type="text" id="newSalesRemark4" name="newSalesRemark4"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory5">Product Category:</label>
+            <select id="newSalesCategory5" name="newSalesCategory5">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newSalesWeight5">Gas Weight(KG):</label>
+            <select id="newSalesWeight5" name="newSalesWeight5">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity5">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity5" name="newSalesQuantity5" min="1">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark5">Remark:</label>
+            <input type="text" id="newSalesRemark5" name="newSalesRemark5"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newSalesCategory6">Product Category:</label>
+            <select id="newSalesCategory6" name="newSalesCategory6">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newSalesWeight6">Gas Weight(KG):</label>
+            <select id="newSalesWeight6" name="newSalesWeight6">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newSalesQuantity6">Cylinders Qty:</label>
+            <input type="number" id="newSalesQuantity6" name="newSalesQuantity6" min="1">
+          </div>
+          <div class="col">
+            <label for="newSalesRemark6">Remark:</label>
+            <input type="text" id="newSalesRemark6" name="newSalesRemark6"></textarea>
+          </div>
+        </div><br>
+      </form>
+      <button id="saveNewSalesBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
     </div>
 
     <div id="editSalesWindow" style="display: none">
@@ -135,42 +213,205 @@
           <label for="editSalesDate">Date:</label>
           <input type="date" id="editSalesDate" name="editSalesDate" required validationMessage="Date is required">
         </p>
+        <input type="text" id="editSalesCustomerId" name="editSalesCustomerId" style="display: none">
         <p>        
           <label for="editSalesName">Name/Company:</label>
-          <input type="text" id="editSalesName" name="editSalesName" required validationMessage="Name/Company is required">
+          <select id="editSalesName" name="editSalesName" required validationMessage="Name/Company is required">
+          </select>
         </p>
+        <input type="text" id="editSalesCategoryId" name="editSalesCategoryId" style="display: none">
         <p>
           <label for="editSalesCategory">Product Category:</label>
           <select id="editSalesCategory" name="editSalesCategory" required validationMessage="Product Category is required">
-            <option value="" selected></option>
-            <option value="1">Oxygen(O2)</option>
-            <option value="2">Nitrogen(N2)</option>
-            <option value="3">Carbon Dioxide(CO2)</option>
-            <option value="4">Argon(Ar)</option>
-            <option value="5">Acetylene(C2H2)</option>
-            <option value="0">Other</option>
           </select> 
         </p>
         <p>
           <label for="editSalesWeight">Gas Weight(KG):</label>
           <select id="editSalesWeight" name="editSalesWeight" required validationMessage="Gas Weight is required">
-            <option value="" selected></option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="48">48</option>
-            <option value="0">Other</option>
           </select>
         </p>
         <p>
           <label for="editSalesQuantity">Cylinders Qty:</label>
-          <input type="number" id="editSalesQuantity" name="editSalesQuantity" required validationMessage="Cylinders Qty is required">
+          <input type="number" id="editSalesQuantity" name="editSalesQuantity" min="1" required validationMessage="Cylinders Qty is required">
         </p>
         <p>
           <label for="editSalesRemark">Remark:</label>
           <input type="text" id="editSalesRemark" name="editSalesRemark"></textarea>
         </p>
       </form>
-      <button id="saveEditSalesBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
+      <button id="saveEditSalesBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Update</button>
+    </div>
+
+
+    <div id="newReturnWindow" style="display: none">
+      <form id="newReturnForm">
+        <p>
+          <label for="newReturnDate">Date:</label>
+          <input type="date" id="newReturnDate" name="newReturnDate" required validationMessage="Date is required">
+        </p>
+        <p>
+          <label for="newReturnName">Name/Company:</label>
+          <select id="newReturnName" name="newReturnName" required validationMessage="Name/Company is required">
+          </select>    
+        </p>
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory">Product Category:</label>
+            <select id="newReturnCategory" name="newReturnCategory" required validationMessage="Product Category is required">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight">Gas Weight(KG):</label>
+            <select id="newReturnWeight" name="newReturnWeight" required validationMessage="Gas Weight is required">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity" name="newReturnQuantity" min="1" required validationMessage="Cylinders Qty is required">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark">Remark:</label>
+            <input type="text" id="newReturnRemark" name="newReturnRemark"></textarea>
+          </div>
+        </div>        
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory2">Product Category:</label>
+            <select id="newReturnCategory2" name="newReturnCategory2">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight2">Gas Weight(KG):</label>
+            <select id="newReturnWeight2" name="newReturnWeight2">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity2">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity2" name="newReturnQuantity2" min="1">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark2">Remark:</label>
+            <input type="text" id="newReturnRemark2" name="newReturnRemark2"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory3">Product Category:</label>
+            <select id="newReturnCategory3" name="newReturnCategory3">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight3">Gas Weight(KG):</label>
+            <select id="newReturnWeight3" name="newReturnWeight3">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity3">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity3" name="newReturnQuantity3" min="1">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark3">Remark:</label>
+            <input type="text" id="newReturnRemark3" name="newReturnRemark3"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory4">Product Category:</label>
+            <select id="newReturnCategory4" name="newReturnCategory4">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight4">Gas Weight(KG):</label>
+            <select id="newReturnWeight4" name="newReturnWeight4">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity4">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity4" name="newReturnQuantity4" min="1">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark4">Remark:</label>
+            <input type="text" id="newReturnRemark4" name="newReturnRemark4"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory5">Product Category:</label>
+            <select id="newReturnCategory5" name="newReturnCategory5">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight5">Gas Weight(KG):</label>
+            <select id="newReturnWeight5" name="newReturnWeight5">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity5">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity5" name="newReturnQuantity5" min="1">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark5">Remark:</label>
+            <input type="text" id="newReturnRemark5" name="newReturnRemark5"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <label for="newReturnCategory6">Product Category:</label>
+            <select id="newReturnCategory6" name="newReturnCategory6">
+            </select> 
+          </div>
+          <div class="col">
+            <label for="newReturnWeight6">Gas Weight(KG):</label>
+            <select id="newReturnWeight6" name="newReturnWeight6">
+            </select>
+          </div>
+          <div class="col">
+            <label for="newReturnQuantity6">Cylinders Qty:</label>
+            <input type="number" id="newReturnQuantity6" name="newReturnQuantity6" min="1">
+          </div>
+          <div class="col">
+            <label for="newReturnRemark6">Remark:</label>
+            <input type="text" id="newReturnRemark6" name="newReturnRemark6"></textarea>
+          </div>
+        </div><br>
+      </form>
+      <button id="saveNewReturnBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
+    </div>
+
+    <div id="editReturnWindow" style="display: none">
+      <form id="editReturnForm">
+        <input type="text" id="editReturnId" name="editReturnId" style="display: none">
+        <p>        
+          <label for="editReturnDate">Date:</label>
+          <input type="date" id="editReturnDate" name="editReturnDate" required validationMessage="Date is required">
+        </p>
+        <input type="text" id="editReturnCustomerId" name="editReturnCustomerId" style="display: none">
+        <p>        
+          <label for="editReturnName">Name/Company:</label>
+          <select id="editReturnName" name="editReturnName" required validationMessage="Name/Company is required">
+          </select>
+        </p>
+        <input type="text" id="editReturnCategoryId" name="editReturnCategoryId" style="display: none">
+        <p>
+          <label for="editReturnCategory">Product Category:</label>
+          <select id="editReturnCategory" name="editReturnCategory" required validationMessage="Product Category is required">
+          </select> 
+        </p>
+        <p>
+          <label for="editReturnWeight">Gas Weight(KG):</label>
+          <select id="editReturnWeight" name="editReturnWeight" required validationMessage="Gas Weight is required">
+          </select>
+        </p>
+        <p>
+          <label for="editReturnQuantity">Cylinders Qty:</label>
+          <input type="number" id="editReturnQuantity" name="editReturnQuantity" min="1" required validationMessage="Cylinders Qty is required">
+        </p>
+        <p>
+          <label for="editReturnRemark">Remark:</label>
+          <input type="text" id="editReturnRemark" name="editReturnRemark"></textarea>
+        </p>
+      </form>
+      <button id="saveEditReturnBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Update</button>
     </div>
 
 
@@ -186,7 +427,7 @@
         </p>
         <p>
           <label for="newCustomerNumber">Contact Number:</label>
-          <input type="number" id="newCustomerNumber" name="newCustomerNumber" required validationMessage="Contact Number is required">
+          <input type="number" id="newCustomerNumber" name="newCustomerNumber" min="1" required validationMessage="Contact Number is required">
         </p>
         <p>
           <label for="newCustomerRemark">Remark:</label>
@@ -210,14 +451,14 @@
         </p>
         <p>
           <label for="editCustomerNumber">Contact Number:</label>
-          <input type="number" id="editCustomerNumber" name="editCustomerNumber" required validationMessage="Contact Number is required">
+          <input type="number" id="editCustomerNumber" name="editCustomerNumber" min="1" required validationMessage="Contact Number is required">
         </p>
         <p>
           <label for="editCustomerRemark">Remark:</label>
           <input type="text" id="editCustomerRemark" name="editCustomerRemark"></textarea>
         </p>
       </form>
-      <button id="saveEditCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Save</button>
+      <button id="saveEditCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Update</button>
     </div>
     
 

@@ -16,19 +16,19 @@ CREATE TABLE customer
 --delete customer where id > 3 and id <11
 --drop table customer
 
-update customer set name='', address='' where id = 1
-
-update customer set name='',address='',contactNumber='',remark='',modifyDate=GETDATE() where id='10'
+--update customer set name='', address='' where id = 1
+--
+--update customer set name='',address='',contactNumber='',remark='',modifyDate=GETDATE() where id='10'
 
 
 CREATE TABLE gas
 (  
     id int IDENTITY(1,1) PRIMARY KEY,
-    customer_id int NOT NULL,
     date date NOT NULL,
-    weight int NOT NULL,
+    customerId int NOT NULL,
     categoryId int NOT NULL,
-    category varchar(15) NOT NULL,
+    category varchar(50) NOT NULL,
+    weight int NOT NULL,
     quantity int NOT NULL,
     type int NOT NULL, -- 1->sales, 2->return
     remark nvarchar(100),
@@ -36,8 +36,30 @@ CREATE TABLE gas
     modifyDate date
 );
 
---insert into gas values('1',GETDATE(),15,'Oxygen',5,1,'',GETDATE(),NULL)
+--insert into gas values(GETDATE(),'1',1,'Oxygen(O2)',15,5,1,'',GETDATE(),NULL)
+--insert into gas values(GETDATE(),'1',2,'Nitrogen(N2)',48,3,1,'',GETDATE(),NULL)
+
+insert into ${table} values('${date}',${customerId},${categoryId},'${category}',${weight},${quantity},1,'${remark}',GETDATE(),NULL)
+
+update gas set date=GETDATE() ,customerId='1',categoryId='1',category='j',weight=15,quantity=3,type=1,remark='' where id=10
+
+update ${table} set date=${date},customerId=${customerId},categoryId=${categoryId},category=${category},weight=${weight},quantity=${quantity},type=1,remark=${remark} where id=${id}
+
+update gas set type = 2 where id = 6
 
 --select * from gas
 
 --drop table gas
+
+--delete from gas where id = 3
+
+
+select g.id as id, g.date, g.customerId, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from customer as c inner join gas as g on c.id = g.customerId where g.type = 1
+
+select c.name , c.address, t.category, t.totalSalesQuantity, t.totalReturnQuantity, t.totalQuantityInUser, c.remark from
+	(select s.customerId, s.categoryId, s.category, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
+		(select customerId, categoryId, category, sum(quantity) as totalSalesQuantity from gas where type=1 group by category, categoryId, customerId) as s left join
+		(select customerId, categoryId, category, sum(quantity) as totalReturnQuantity from gas where type=2 group by category, categoryId, customerId) as r 
+		on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId
+
+

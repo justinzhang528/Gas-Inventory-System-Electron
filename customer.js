@@ -1,10 +1,7 @@
 var newCustomerName = $("#newCustomerName").kendoTextBox().data('kendoTextBox');
 var newCustomerAddress = $("#newCustomerAddress").kendoTextBox().data('kendoTextBox');
 var newCustomerNumber = $("#newCustomerNumber").kendoTextBox().data('kendoTextBox');
-var newCustomerRemark = $("#newCustomerRemark").kendoTextArea({
-    rows: 10,
-    maxLength:200
-}).data('kendoTextArea');
+var newCustomerRemark = $("#newCustomerRemark").kendoTextArea().data('kendoTextArea');
 var newCustomerFormValidator = $("#newCustomerForm").kendoValidator().data('kendoValidator');
 var newCustomerWindow = $("#newCustomerWindow").kendoWindow({
     actions: ["Maximize", "Minimize", "Close"],
@@ -17,6 +14,7 @@ var newCustomerWindow = $("#newCustomerWindow").kendoWindow({
     width: "500px",
     close: function(e) {
         $('#newCustomerForm')[0].reset();
+        newCustomerFormValidator.reset();
     }
 }).data('kendoWindow');
 newCustomerWindow.center();
@@ -25,10 +23,7 @@ var editCustomerId = $("#editCustomerId").kendoTextBox().data('kendoTextBox');
 var editCustomerName = $("#editCustomerName").kendoTextBox().data('kendoTextBox');
 var editCustomerAddress = $("#editCustomerAddress").kendoTextBox().data('kendoTextBox');
 var editCustomerNumber = $("#editCustomerNumber").kendoTextBox().data('kendoTextBox');
-var editCustomerRemark = $("#editCustomerRemark").kendoTextArea({
-    rows: 10,
-    maxLength:200
-}).data('kendoTextArea');
+var editCustomerRemark = $("#editCustomerRemark").kendoTextArea().data('kendoTextArea');
 var editCustomerFormValidator = $("#editCustomerForm").kendoValidator().data('kendoValidator');
 var editCustomerWindow = $("#editCustomerWindow").kendoWindow({
     actions: ["Maximize", "Minimize", "Close"],
@@ -41,6 +36,7 @@ var editCustomerWindow = $("#editCustomerWindow").kendoWindow({
     width: "500px",
     close: function(e) {
         $('#editCustomerForm')[0].reset();
+        editCustomerFormValidator.reset();
     }
 }).data('kendoWindow');
 editCustomerWindow.center();
@@ -89,6 +85,7 @@ function openEditCustomerWindow(){
     editCustomerWindow.open();
 }
 
+var record = 0;
 var customerDataSource = {
     data: [
         { id: 1, name: "Jane Doe", address: "Tokyo", contactNumber: "09123456" , remark: "smart!" },
@@ -103,6 +100,11 @@ var customerDataSource = {
 }
 var customerGrid = $("#customerGrid").kendoGrid({
     columns: [
+        {
+            title: "No.",
+            template: "#= ++record #",
+            width: 60
+        },
         {
             field: "name",
             title: "Name/Company"
@@ -149,6 +151,9 @@ var customerGrid = $("#customerGrid").kendoGrid({
             { name: "remark", operator: "contains" },
         ]
     },
+    dataBinding: function() {
+        record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+    }
 }).data("kendoGrid");
 
 
