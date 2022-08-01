@@ -87,10 +87,7 @@ function openEditCustomerWindow(){
 
 var record = 0;
 var customerDataSource = {
-    data: [
-        { id: 1, name: "Jane Doe", address: "Tokyo", contactNumber: "09123456" , remark: "smart!" },
-        { id: 2, name: "GEG", address: "Myanmar", contactNumber: "091898456" , remark: "awsome!" }
-    ],
+    data: [],
     schema: {
         model: { id: "id" }
     },  

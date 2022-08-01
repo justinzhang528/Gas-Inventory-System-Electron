@@ -51,7 +51,7 @@ update gas set type = 2 where id = 6
 
 --drop table gas
 
---delete from gas where id = 3
+--delete from gas where id > 5
 
 
 select g.id as id, g.date, g.customerId, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from customer as c inner join gas as g on c.id = g.customerId where g.type = 1
@@ -60,6 +60,6 @@ select c.name , c.address, t.category, t.totalSalesQuantity, t.totalReturnQuanti
 	(select s.customerId, s.categoryId, s.category, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
 		(select customerId, categoryId, category, sum(quantity) as totalSalesQuantity from gas where type=1 group by category, categoryId, customerId) as s left join
 		(select customerId, categoryId, category, sum(quantity) as totalReturnQuantity from gas where type=2 group by category, categoryId, customerId) as r 
-		on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId
+		on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId ORDER BY c.name
 
 

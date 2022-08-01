@@ -204,9 +204,7 @@ function openEditSalesWindow(){
 
 var record = 0;
 var salesDataSource = {
-    data: [
-        { id: 1, date: "2017/05/28", name: "GEG", category: "Oxygen(O2)", weight: "20", quantity: "5", totalWeight: "100", remark: "smart!" }
-    ],
+    data: [],
     schema: {
         model: { id : "id", categoryId: "categoryId", customerId: "customerId" }
     },  

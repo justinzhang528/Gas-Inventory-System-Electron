@@ -8,9 +8,7 @@ $("#historyBtn").click(function(){
 
 var record = 0;
 var historyDataSource = {
-    data: [
-        { no: "1", name: "GEG", address: "Taunggyi", salesQuantity: "5", returnQuantity: "2", totalQuantityInUser: "3", remark: "smart!" }
-    ],
+    data: [],
     batch: true,
     pageSize: 5,
     autoSync: true
@@ -52,7 +50,10 @@ var historyGrid = $("#historyGrid").kendoGrid({
         mode: "single",
         allowUnsort: false
     },
-    toolbar: ["search"],
+    toolbar: ["search", "excel"],
+    excel:{
+      allPages:true
+    },
     search: {
         fields: [
             { name: "name", operator: "contains" },
@@ -77,7 +78,7 @@ function getAllHistory(){
         (select s.customerId, s.categoryId, s.category, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
             (select customerId, categoryId, category, sum(quantity) as totalSalesQuantity from gas where type=1 group by category, categoryId, customerId) as s left join
             (select customerId, categoryId, category, sum(quantity) as totalReturnQuantity from gas where type=2 group by category, categoryId, customerId) as r 
-            on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId`
+            on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId ORDER BY c.name`
         request.query(sql).then(function (recordSet) {
             console.log('query success');
 
