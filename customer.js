@@ -1,4 +1,7 @@
+var record = 0;
+
 var newCustomerName = $("#newCustomerName").kendoTextBox().data('kendoTextBox');
+var newCustomerRegion = $("#newCustomerRegion").kendoTextBox().data('kendoTextBox');
 var newCustomerAddress = $("#newCustomerAddress").kendoTextBox().data('kendoTextBox');
 var newCustomerNumber = $("#newCustomerNumber").kendoTextBox().data('kendoTextBox');
 var newCustomerRemark = $("#newCustomerRemark").kendoTextArea().data('kendoTextArea');
@@ -21,6 +24,7 @@ newCustomerWindow.center();
 
 var editCustomerId = $("#editCustomerId").kendoTextBox().data('kendoTextBox');
 var editCustomerName = $("#editCustomerName").kendoTextBox().data('kendoTextBox');
+var editCustomerRegion = $("#editCustomerRegion").kendoTextBox().data('kendoTextBox');
 var editCustomerAddress = $("#editCustomerAddress").kendoTextBox().data('kendoTextBox');
 var editCustomerNumber = $("#editCustomerNumber").kendoTextBox().data('kendoTextBox');
 var editCustomerRemark = $("#editCustomerRemark").kendoTextArea().data('kendoTextArea');
@@ -51,6 +55,27 @@ function myAlert(title, content){
     }).data("kendoAlert").open();
 }
 
+function openDeleteConfirmWindow(id,deleteTitle,alertTitle,deleteFunc){
+    $("<div></div>").kendoDialog({
+        size: "small",
+        title: deleteTitle,    
+        content: "Are you sure to delete?",
+        actions: [{
+            text: "OK",
+            action: function(e){
+                // e.sender is a reference to the dialog widget object
+                myAlert(alertTitle, "Deleted Successfully!");
+                deleteFunc(id);
+                // Returning false will prevent the closing of the dialog
+                return true;
+            },
+            primary: true
+        },{
+            text: "Cancel"
+        }]
+      }).data('kendoDialog').open();
+}
+
 $("#customerBtn").click(function(){
     $("#customerInfo").show();
     $("#salesInfo").hide();
@@ -67,7 +92,7 @@ $("#saveNewCustomerBtn").click(function() {
     if (newCustomerFormValidator.validate()) {
         saveNewCustomer();
         newCustomerWindow.close();
-        myAlert('Customer','Successfully saved!');        
+        myAlert('Customer','Saved Successfully!');        
         // getAllCustomer(); // 此方法移到saveNewCustomer()以確保執行順序
     }
 });
@@ -76,7 +101,7 @@ $("#saveEditCustomerBtn").click(function() {
     if (editCustomerFormValidator.validate()) {
         saveEditCustomer();
         editCustomerWindow.close();
-        myAlert('Customer','Successfully updated!');        
+        myAlert('Customer','Updated Successfully!');        
         // getAllCustomer(); // 此方法移到saveEditCustomer()以確保執行順序
     }
 });
@@ -85,14 +110,13 @@ function openEditCustomerWindow(){
     editCustomerWindow.open();
 }
 
-var record = 0;
 var customerDataSource = {
     data: [],
     schema: {
         model: { id: "id" }
     },  
     batch: true,
-    pageSize: 5,
+    pageSize: 10,
     autoSync: true
 }
 var customerGrid = $("#customerGrid").kendoGrid({
@@ -100,20 +124,29 @@ var customerGrid = $("#customerGrid").kendoGrid({
         {
             title: "No.",
             template: "#= ++record #",
-            width: 60
+            width: 80,
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },
         {
             field: "name",
-            title: "Name/Company"
+            title: "Name/Company",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
+            field: "region",
+            title: "Region",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
+        },{
             field: "address",
-            title: "Address"
-        }, {
+            title: "Address",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
+        },  {
             field: "contactNumber",
-            title: "Contact Number"
+            title: "Contact Number",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
             field: "remark",
-            title: "Remark"
+            title: "Remark",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },
         { command: [{
             name: "Edit",
@@ -123,10 +156,20 @@ var customerGrid = $("#customerGrid").kendoGrid({
                 var data = this.dataItem(tr);
                 editCustomerId.value(data.id);
                 editCustomerName.value(data.name);
+                editCustomerRegion.value(data.region);
                 editCustomerAddress.value(data.address);
                 editCustomerNumber.value(data.contactNumber);
                 editCustomerRemark.value(data.remark); 
                 openEditCustomerWindow();
+            }
+          },
+          {
+            name: "Delete",
+            click: function(e) {
+                e.preventDefault();// prevent page scroll position change
+                var tr = $(e.target).closest("tr"); // get the current table row (tr)
+                var data = this.dataItem(tr);
+                openDeleteConfirmWindow(data.id,"Customer","Customer",deleteCustomer);
             }
           }]
        }
@@ -142,15 +185,17 @@ var customerGrid = $("#customerGrid").kendoGrid({
     toolbar: ["search"],
     search: {
         fields: [
-            { name: "name", operator: "contains" },
-            { name: "address", operator: "contains" },
-            { name: "contactNumber", operator: "contains" },
-            { name: "remark", operator: "contains" },
+            { name: "name", operator: "equal" },
+            { name: "region", operator: "equal" },
+            { name: "address", operator: "equal" },
+            { name: "contactNumber", operator: "equal" },
+            { name: "remark", operator: "equal" },
         ]
     },
     dataBinding: function() {
         record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-    }
+    },
+    resizable:true
 }).data("kendoGrid");
 
 
@@ -160,10 +205,11 @@ function saveNewCustomer() {
         var request = new mssql.Request(dbConn);
         var table = 'customer'
         var name = newCustomerName.value();
+        var region = newCustomerRegion.value();
         var address = newCustomerAddress.value();
         var contactNumber = newCustomerNumber.value();
         var remark = newCustomerRemark.value();
-        var sql = `insert into ${table} values('${name}','${address}','${contactNumber}','${remark}',GETDATE(),NULL)`
+        var sql = `insert into ${table} values('${name}','${region}','${address}','${contactNumber}','${remark}',GETDATE(),NULL)`
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
             getAllCustomer(); //在此呼叫以確保執行順序
@@ -184,10 +230,11 @@ function saveEditCustomer() {
         var table = 'customer'
         var id = editCustomerId.value();
         var name = editCustomerName.value();
+        var region = editCustomerRegion.value();
         var address = editCustomerAddress.value();
         var contactNumber = editCustomerNumber.value();
         var remark = editCustomerRemark.value();
-        var sql = `update ${table} set name='${name}',address='${address}',contactNumber='${contactNumber}',remark='${remark}',modifyDate=GETDATE() where id=${id}`
+        var sql = `update ${table} set name='${name}',region='${region}',address='${address}',contactNumber='${contactNumber}',remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
             getAllCustomer(); //在此呼叫以確保執行順序
@@ -206,7 +253,7 @@ function getAllCustomer() {
     dbConn.connect().then(function () {
         var request = new mssql.Request(dbConn);
         var table = 'customer'
-        var sql = `select id,name,address,contactNumber,remark from ${table}`
+        var sql = `select id,name,region,address,contactNumber,remark from ${table}`
         request.query(sql).then(function (recordSet) {
             console.log('query success');
 
@@ -219,11 +266,30 @@ function getAllCustomer() {
                     model: { id: "id" }
                 },  
                 batch: true,
-                pageSize: 5,
+                pageSize: 10,
                 autoSync: true
             }
             customerGrid.setDataSource(customerDataSource);
             customerGrid.refresh();
+            dbConn.close();
+        }).catch(function (err) {
+            console.log(err);
+            dbConn.close();
+        });
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
+function deleteCustomer(id){
+    var dbConn = new mssql.ConnectionPool(sqlConfig);
+    dbConn.connect().then(function () {
+        var request = new mssql.Request(dbConn);
+        var table = 'customer'
+        var sql = `delete from ${table} where id=${id}`
+        request.query(sql).then(function (recordSet) {
+            console.log('delete success');
+            getAllCustomer(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
             console.log(err);

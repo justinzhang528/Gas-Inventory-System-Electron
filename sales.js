@@ -1,18 +1,19 @@
-var salesCategoryDataSource = [
+var categoryDataSource = [
     {"text": "", "value": ""},
     {"text": "Oxygen(O2)", "value": "1"},
     {"text": "Nitrogen(N2)", "value": "2"},
     {"text": "Carbon Dioxide(CO2)", "value": "3"},
     {"text": "Argon(Ar)", "value": "4"},
     {"text": "Acetylene(C2H2)", "value": "5"},
+    {"text": "LPG", "value": "6"},
     {"text": "Other", "value": "0"},
 ]
-var salesWeightDataSource = [
-    {"text": "", "value": ""},
+var weightDataSource = [
+    {"text": "", "value": "-"},
     {"text": "15", "value": "15"},
     {"text": "20", "value": "20"},
     {"text": "48", "value": "48"},
-    {"text": "Other", "value": "0"},
+    {"text": "Other", "value": "1"},
 ]
 var newSalesDate = $("#newSalesDate").kendoDatePicker({
     format: "MM/dd/yyyy"
@@ -25,72 +26,72 @@ var newSalesName = $("#newSalesName").kendoDropDownList({
 var newSalesCategory = $("#newSalesCategory").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight = $("#newSalesWeight").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity = $("#newSalesQuantity").kendoTextBox().data('kendoTextBox');
 var newSalesRemark = $("#newSalesRemark").kendoTextArea().data('kendoTextArea');
 var newSalesCategory2 = $("#newSalesCategory2").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight2 = $("#newSalesWeight2").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity2 = $("#newSalesQuantity2").kendoTextBox().data('kendoTextBox');
 var newSalesRemark2 = $("#newSalesRemark2").kendoTextArea().data('kendoTextArea');
 var newSalesCategory3 = $("#newSalesCategory3").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight3 = $("#newSalesWeight3").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity3 = $("#newSalesQuantity3").kendoTextBox().data('kendoTextBox');
 var newSalesRemark3 = $("#newSalesRemark3").kendoTextArea().data('kendoTextArea');
 var newSalesCategory4 = $("#newSalesCategory4").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight4 = $("#newSalesWeight4").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity4 = $("#newSalesQuantity4").kendoTextBox().data('kendoTextBox');
 var newSalesRemark4 = $("#newSalesRemark4").kendoTextArea().data('kendoTextArea');
 var newSalesCategory5 = $("#newSalesCategory5").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight5 = $("#newSalesWeight5").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity5 = $("#newSalesQuantity5").kendoTextBox().data('kendoTextBox');
 var newSalesRemark5 = $("#newSalesRemark5").kendoTextArea().data('kendoTextArea');
 var newSalesCategory6 = $("#newSalesCategory6").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesCategoryDataSource
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var newSalesWeight6 = $("#newSalesWeight6").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: salesWeightDataSource
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var newSalesQuantity6 = $("#newSalesQuantity6").kendoTextBox().data('kendoTextBox');
 var newSalesRemark6 = $("#newSalesRemark6").kendoTextArea().data('kendoTextArea');
@@ -125,26 +126,12 @@ var editSalesCategoryId = $("#editSalesCategoryId").kendoTextBox().data('kendoTe
 var editSalesCategory = $("#editSalesCategory").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: [
-        {"text": "", "value": ""},
-        {"text": "Oxygen(O2)", "value": "1"},
-        {"text": "Nitrogen(N2)", "value": "2"},
-        {"text": "Carbon Dioxide(CO2)", "value": "3"},
-        {"text": "Argon(Ar)", "value": "4"},
-        {"text": "Acetylene(C2H2)", "value": "5"},
-        {"text": "Other", "value": "0"},
-    ]
+    dataSource: categoryDataSource
   }).data('kendoDropDownList');
 var editSalesWeight = $("#editSalesWeight").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: [
-        {"text": "", "value": ""},
-        {"text": "15", "value": "15"},
-        {"text": "20", "value": "20"},
-        {"text": "48", "value": "48"},
-        {"text": "Other", "value": "0"},
-    ]
+    dataSource: weightDataSource
   }).data('kendoDropDownList');
 var editSalesQuantity = $("#editSalesQuantity").kendoTextBox().data('kendoTextBox');
 var editSalesRemark = $("#editSalesRemark").kendoTextArea().data('kendoTextArea');
@@ -202,14 +189,13 @@ function openEditSalesWindow(){
     editSalesWindow.open();
 }
 
-var record = 0;
 var salesDataSource = {
     data: [],
     schema: {
         model: { id : "id", categoryId: "categoryId", customerId: "customerId" }
     },  
     batch: true,
-    pageSize: 5,
+    pageSize: 10,
     autoSync: true
 }
 var salesGrid = $("#salesGrid").kendoGrid({
@@ -217,28 +203,38 @@ var salesGrid = $("#salesGrid").kendoGrid({
         {
             title: "No.",
             template: "#= ++record #",
-            width: 60
+            width: 80,
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
             field: "date",
-            title: "Date"
+            title: "Date",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
             field: "name",
-            title: "Name/Company"
+            title: "Name/Company",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
+        },{
+            field: "region",
+            title: "Region",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
             field: "category",
-            title: "Product Category"
+            title: "Product Category",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },{
             field: "weight",
-            title: "Gas Weight(KG)"
+            title: "Gas Weight(KG)",
+            width: 150,
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },{
             field: "quantity",
-            title: "Cylinders Qty"
-        },{
-            field: "totalWeight",
-            title: "Total Gas Weight(KG)"
+            title: "Cylinders Qty",
+            width: 150,
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },{
             field: "remark",
-            title: "Remark"
+            title: "Remark",
+            headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         },
         { command: [{
             name: "Edit",
@@ -256,6 +252,15 @@ var salesGrid = $("#salesGrid").kendoGrid({
                 editSalesRemark.value(data.remark); 
                 openEditSalesWindow();
             }
+          },
+          {
+            name: "Delete",
+            click: function(e) {
+                e.preventDefault();// prevent page scroll position change
+                var tr = $(e.target).closest("tr"); // get the current table row (tr)
+                var data = this.dataItem(tr);
+                openDeleteConfirmWindow(data.id,"Sales","Sales",deleteSales);
+            }
           }]
        }
     ],
@@ -271,18 +276,19 @@ var salesGrid = $("#salesGrid").kendoGrid({
     search: {
         fields: [
             { name: "id", operator: "equal" },
-            { name: "date", operator: "contains" },
-            { name: "name", operator: "contains" },
-            { name: "category", operator: "contains" },
+            { name: "date", operator: "equal" },
+            { name: "name", operator: "equal" },
+            { name: "region", operator: "equal" },
+            { name: "category", operator: "equal" },
             { name: "weight", operator: "equal" },
             { name: "quantity", operator: "equal" },
-            { name: "totalWeight", operator: "equal" },
-            { name: "remark", operator: "contains" }
+            { name: "remark", operator: "equal" }
         ]
     },
     dataBinding: function() {
         record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-    }
+    },
+    resizable:true
 }).data("kendoGrid");
 
 
@@ -365,7 +371,7 @@ function getAllSales(){
         var request = new mssql.Request(dbConn);
         var table1 = 'customer'
         var table2 = 'gas'
-        var sql = `select g.id, CONVERT(VARCHAR(20),g.date,101) as date, g.customerId, c.name as name, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 1`
+        var sql = `select g.id, CONVERT(VARCHAR(20),g.date,101) as date, g.customerId, c.name as name, c.region as region, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 1`
         request.query(sql).then(function (recordSet) {
             console.log('query success');
             
@@ -378,11 +384,30 @@ function getAllSales(){
                     model: { categoryId: "categoryId", customerId: "customerId" }
                 },  
                 batch: true,
-                pageSize: 5,
+                pageSize: 10,
                 autoSync: true
             }
             salesGrid.setDataSource(salesDataSource);
             salesGrid.refresh();
+            dbConn.close();
+        }).catch(function (err) {
+            console.log(err);
+            dbConn.close();
+        });
+    }).catch(function (err) {
+        console.log(err);
+    });
+}
+
+function deleteSales(id){
+    var dbConn = new mssql.ConnectionPool(sqlConfig);
+    dbConn.connect().then(function () {
+        var request = new mssql.Request(dbConn);
+        var table = 'gas'
+        var sql = `delete from ${table} where id=${id}`
+        request.query(sql).then(function (recordSet) {
+            console.log('delete success');
+            getAllSales(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
             console.log(err);
@@ -398,7 +423,7 @@ function populateCustomerDropDownList(dropDownList, selectedValue){
     dbConn.connect().then(function () {
         var request = new mssql.Request(dbConn);
         var table = 'customer'
-        var sql = `select id,name from ${table}`
+        var sql = `select id,name,region from ${table}`
         dropDownList.setDataSource([]);
         dropDownList.dataSource.add({
             "text": "", 
@@ -406,7 +431,7 @@ function populateCustomerDropDownList(dropDownList, selectedValue){
         request.query(sql).then(function (recordSet) {
           for(const record of recordSet.recordset){
             dropDownList.dataSource.add({
-                "text": record.name,
+                "text": record.name + ' (' + record.region + ')',
                 "value": record.id});
           }
             dropDownList.value(selectedValue);

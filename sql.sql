@@ -1,16 +1,17 @@
 CREATE TABLE customer
 (  
     id int IDENTITY(1,1) PRIMARY KEY,
-    name nvarchar(100) NOT NULL,  
-    address nvarchar(100) NOT NULL,
+    name nvarchar(100) NOT NULL,   
+    region nvarchar(100) NOT NULL, 
+    address nvarchar(100) NOT NULL,  
     contactNumber varchar(15) NOT NULL,
     remark nvarchar(100),
     createDate date,
     modifyDate date
 );
 
---insert into customer values('test','geg','0912345678','',GETDATE(),NULL)
---insert into customer values('justin','softstar','0912345678','',GETDATE(),NULL)
+--insert into customer values('merry','yangon','PadaMyarSt','0912345678','',GETDATE(),NULL)
+--insert into customer values('justin','mandalay','YaeOoSt','0912345678','',GETDATE(),NULL)
 
 --select * from customer
 --delete customer where id > 3 and id <11
@@ -45,7 +46,7 @@ update gas set date=GETDATE() ,customerId='1',categoryId='1',category='j',weight
 
 update ${table} set date=${date},customerId=${customerId},categoryId=${categoryId},category=${category},weight=${weight},quantity=${quantity},type=1,remark=${remark} where id=${id}
 
-update gas set type = 2 where id = 6
+update gas set type = 1 where id = 1021
 
 --select * from gas
 
@@ -56,10 +57,10 @@ update gas set type = 2 where id = 6
 
 select g.id as id, g.date, g.customerId, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from customer as c inner join gas as g on c.id = g.customerId where g.type = 1
 
-select c.name , c.address, t.category, t.totalSalesQuantity, t.totalReturnQuantity, t.totalQuantityInUser, c.remark from
-	(select s.customerId, s.categoryId, s.category, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
-		(select customerId, categoryId, category, sum(quantity) as totalSalesQuantity from gas where type=1 group by category, categoryId, customerId) as s left join
-		(select customerId, categoryId, category, sum(quantity) as totalReturnQuantity from gas where type=2 group by category, categoryId, customerId) as r 
-		on s.customerId = r.customerId and s.categoryId = r.categoryId) as t inner join customer as c on c.id = t.customerId ORDER BY c.name
+select c.name as name, c.address as address, t.category as category, t.weight as weight, t.totalSalesQuantity, t.totalReturnQuantity, t.totalQuantityInUser, c.remark as remark from
+        (select s.customerId, s.categoryId, s.category, s.weight, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
+            (select customerId, categoryId, category, weight, sum(quantity) as totalSalesQuantity from gas where type=1 and (date between '08/1/2022' and '08/11/2022') group by category, weight, categoryId, customerId) as s left join
+            (select customerId, categoryId, category, weight, sum(quantity) as totalReturnQuantity from gas where type=2 and (date between '08/1/2022' and '08/11/2022') group by category, weight, categoryId, customerId) as r 
+            on s.customerId = r.customerId and s.categoryId = r.categoryId and s.weight = r.weight) as t inner join customer as c on c.id = t.customerId ORDER BY c.name
 
 

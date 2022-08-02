@@ -26,7 +26,7 @@
   </head>
   <body>
 
-    <div class="container p-5">
+    <div class="p-4 container">
       <div class="row row-cols-md-1 g-4">
         <div class="col">
           
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="container p-5 text-center">
+    <div class="text-center" style="margin-right: 100px; margin-left: 100px;">
       <div id="salesInfo" style="display: none">
         <button id="newSalesBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">New Sales</button>
         <br><br>
@@ -66,7 +66,24 @@
         <div id="customerGrid"></div>
       </div>
       <div id="historyInfo" style="display: none">
-        <br><br>
+        <div class="row justify-content-md-center">
+          <div class="col-2">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+          </div>
+          <div class="col-md-auto">
+            <label>~</label>
+          </div>
+          <div class="col-2">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate">
+          </div>
+          <div class="col-1">
+            <br>
+            <button id="dateSearchBtn" type="button" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Search</button>
+          </div>
+        </div>
+        <br>
         <div id="historyGrid"></div>
       </div>
     </div>
@@ -78,8 +95,8 @@
           <input type="date" id="newSalesDate" name="newSalesDate" required validationMessage="Date is required">
         </p>
         <p>
-          <label for="newSalesName">Name/Company:</label>
-          <select id="newSalesName" name="newSalesName" required validationMessage="Name/Company is required">
+          <label for="newSalesName">Name/Company (Region):</label>
+          <select id="newSalesName" name="newSalesName" required validationMessage="Name/Company (Region) is required">
           </select>    
         </p>
         <div class="row">
@@ -90,7 +107,7 @@
           </div>
           <div class="col">
             <label for="newSalesWeight">Gas Weight(KG):</label>
-            <select id="newSalesWeight" name="newSalesWeight" required validationMessage="Gas Weight is required">
+            <select id="newSalesWeight" name="newSalesWeight">
             </select>
           </div>
           <div class="col">
@@ -215,8 +232,8 @@
         </p>
         <input type="text" id="editSalesCustomerId" name="editSalesCustomerId" style="display: none">
         <p>        
-          <label for="editSalesName">Name/Company:</label>
-          <select id="editSalesName" name="editSalesName" required validationMessage="Name/Company is required">
+          <label for="editSalesName">Name/Company (Region):</label>
+          <select id="editSalesName" name="editSalesName" required validationMessage="Name/Company (Region) is required">
           </select>
         </p>
         <input type="text" id="editSalesCategoryId" name="editSalesCategoryId" style="display: none">
@@ -227,7 +244,7 @@
         </p>
         <p>
           <label for="editSalesWeight">Gas Weight(KG):</label>
-          <select id="editSalesWeight" name="editSalesWeight" required validationMessage="Gas Weight is required">
+          <select id="editSalesWeight" name="editSalesWeight">
           </select>
         </p>
         <p>
@@ -250,8 +267,8 @@
           <input type="date" id="newReturnDate" name="newReturnDate" required validationMessage="Date is required">
         </p>
         <p>
-          <label for="newReturnName">Name/Company:</label>
-          <select id="newReturnName" name="newReturnName" required validationMessage="Name/Company is required">
+          <label for="newReturnName">Name/Company (Region):</label>
+          <select id="newReturnName" name="newReturnName" required validationMessage="Name/Company (Region) is required">
           </select>    
         </p>
         <div class="row">
@@ -262,7 +279,7 @@
           </div>
           <div class="col">
             <label for="newReturnWeight">Gas Weight(KG):</label>
-            <select id="newReturnWeight" name="newReturnWeight" required validationMessage="Gas Weight is required">
+            <select id="newReturnWeight" name="newReturnWeight">
             </select>
           </div>
           <div class="col">
@@ -387,8 +404,8 @@
         </p>
         <input type="text" id="editReturnCustomerId" name="editReturnCustomerId" style="display: none">
         <p>        
-          <label for="editReturnName">Name/Company:</label>
-          <select id="editReturnName" name="editReturnName" required validationMessage="Name/Company is required">
+          <label for="editReturnName">Name/Company (Region):</label>
+          <select id="editReturnName" name="editReturnName" required validationMessage="Name/Company (Region) is required">
           </select>
         </p>
         <input type="text" id="editReturnCategoryId" name="editReturnCategoryId" style="display: none">
@@ -399,7 +416,7 @@
         </p>
         <p>
           <label for="editReturnWeight">Gas Weight(KG):</label>
-          <select id="editReturnWeight" name="editReturnWeight" required validationMessage="Gas Weight is required">
+          <select id="editReturnWeight" name="editReturnWeight">
           </select>
         </p>
         <p>
@@ -420,6 +437,10 @@
         <p>        
           <label for="newCustomerName">Name/Company:</label>
           <input type="text" id="newCustomerName" name="newCustomerName" required validationMessage="Name/Company is required">
+        </p>
+        <p>
+          <label for="newCustomerRegion">Region:</label>
+          <input type="text" id="newCustomerRegion" name="newCustomerRegion" required validationMessage="Region is required">
         </p>
         <p>
           <label for="newCustomerAddress">Address:</label>
@@ -446,6 +467,10 @@
           <input type="text" id="editCustomerName" name="editCustomerName" required validationMessage="Name/Company is required">
         </p>
         <p>
+          <label for="editCustomerRegion">Region:</label>
+          <input type="text" id="editCustomerRegion" name="editCustomerRegion" required validationMessage="Region is required">
+        </p>
+        <p>
           <label for="editCustomerAddress">Address:</label>
           <input type="text" id="editCustomerAddress" name="editCustomerAddress" required validationMessage="Address is required">
         </p>
@@ -460,7 +485,6 @@
       </form>
       <button id="saveEditCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Update</button>
     </div>
-    
 
   </body>
 
