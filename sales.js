@@ -31,7 +31,7 @@ var newSalesCategory = $("#newSalesCategory").kendoDropDownList({
 var newSalesWeight = $("#newSalesWeight").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
-    dataSource: weightDataSource
+    dataSource: weightDataSource,
   }).data('kendoDropDownList');
 var newSalesQuantity = $("#newSalesQuantity").kendoTextBox().data('kendoTextBox');
 var newSalesRemark = $("#newSalesRemark").kendoTextArea().data('kendoTextArea');
@@ -106,8 +106,14 @@ var newSalesWindow = $("#newSalesWindow").kendoWindow({
     title: "New Sales",
     width: "800px",
     open: function(e) {
-        $('#newSalesForm')[0].reset();
+        // $('#newSalesForm')[0].reset();
         newSalesFormValidator.reset();
+        newSalesWeight.value("-");
+        newSalesWeight2.value("-");
+        newSalesWeight3.value("-");
+        newSalesWeight4.value("-");
+        newSalesWeight5.value("-");
+        newSalesWeight6.value("-");
     }
 }).data('kendoWindow');
 newSalesWindow.center();
@@ -304,30 +310,31 @@ function saveNewSales() {
         var weight = newSalesWeight.value();
         var quantity = newSalesQuantity.value();
         var remark = newSalesRemark.value();
-        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}',${weight},${quantity},1,'${remark}',GETDATE(),NULL) `
-        if(newSalesCategory2.value()!="" && newSalesWeight2.value()!="" && newSalesQuantity2.value()!="")
+        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}','${weight}',${quantity},1,'${remark}',GETDATE(),NULL) `
+        if(newSalesCategory2.value()!="" && newSalesQuantity2.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory2.value()},'${newSalesCategory2.text()}',${newSalesWeight2.value()},${newSalesQuantity2.value()},1,'${newSalesRemark2.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory2.value()},'${newSalesCategory2.text()}','${newSalesWeight2.value()}',${newSalesQuantity2.value()},1,'${newSalesRemark2.value()}',GETDATE(),NULL) `
         }
-        if(newSalesCategory3.value()!="" && newSalesWeight3.value()!="" && newSalesQuantity3.value()!="")
+        if(newSalesCategory3.value()!="" && newSalesQuantity3.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory3.value()},'${newSalesCategory3.text()}',${newSalesWeight3.value()},${newSalesQuantity3.value()},1,'${newSalesRemark3.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory3.value()},'${newSalesCategory3.text()}','${newSalesWeight3.value()}',${newSalesQuantity3.value()},1,'${newSalesRemark3.value()}',GETDATE(),NULL) `
         }
-        if(newSalesCategory4.value()!="" && newSalesWeight4.value()!="" && newSalesQuantity4.value()!="")
+        if(newSalesCategory4.value()!="" && newSalesQuantity4.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory4.value()},'${newSalesCategory4.text()}',${newSalesWeight4.value()},${newSalesQuantity4.value()},1,'${newSalesRemark4.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory4.value()},'${newSalesCategory4.text()}','${newSalesWeight4.value()}',${newSalesQuantity4.value()},1,'${newSalesRemark4.value()}',GETDATE(),NULL) `
         }
-        if(newSalesCategory5.value()!="" && newSalesWeight5.value()!="" && newSalesQuantity5.value()!="")
+        if(newSalesCategory5.value()!="" && newSalesQuantity5.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory5.value()},'${newSalesCategory5.text()}',${newSalesWeight5.value()},${newSalesQuantity5.value()},1,'${newSalesRemark5.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory5.value()},'${newSalesCategory5.text()}','${newSalesWeight5.value()}',${newSalesQuantity5.value()},1,'${newSalesRemark5.value()}',GETDATE(),NULL) `
         }
-        if(newSalesCategory6.value()!="" && newSalesWeight6.value()!="" && newSalesQuantity6.value()!="")
+        if(newSalesCategory6.value()!="" && newSalesQuantity6.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory6.value()},'${newSalesCategory6.text()}',${newSalesWeight6.value()},${newSalesQuantity6.value()},1,'${newSalesRemark6.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory6.value()},'${newSalesCategory6.text()}','${newSalesWeight6.value()}',${newSalesQuantity6.value()},1,'${newSalesRemark6.value()}',GETDATE(),NULL) `
         }
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
             getAllSales(); //在此呼叫以確保執行順序
+            $('#newSalesForm')[0].reset();
             dbConn.close();
         }).catch(function (err) {
             console.log(err);
@@ -351,7 +358,7 @@ function saveEditSales(){
         var weight = editSalesWeight.value();
         var quantity = editSalesQuantity.value();
         var remark = editSalesRemark.value();
-        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight=${weight},quantity=${quantity},type=1,remark='${remark}',modifyDate=GETDATE() where id=${id}`
+        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=1,remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
             getAllSales(); //在此呼叫以確保執行順序

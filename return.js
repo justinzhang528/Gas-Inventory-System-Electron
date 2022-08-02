@@ -89,8 +89,14 @@ var newReturnWindow = $("#newReturnWindow").kendoWindow({
     title: "New Return",
     width: "800px",
     open: function(e) {
-        $('#newReturnForm')[0].reset();
-        newReturnFormValidator.reset();
+        // $('#newReturnForm')[0].reset();
+        newReturnFormValidator.reset();             
+        newReturnWeight.value("-");
+        newSalesWeight2.value("-");
+        newSalesWeight3.value("-");
+        newSalesWeight4.value("-");
+        newSalesWeight5.value("-");
+        newSalesWeight6.value("-");
     }
 }).data('kendoWindow');
 newReturnWindow.center();
@@ -286,30 +292,31 @@ function saveNewReturn() {
         var weight = newReturnWeight.value();
         var quantity = newReturnQuantity.value();
         var remark = newReturnRemark.value();
-        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}',${weight},${quantity},2,'${remark}',GETDATE(),NULL)`
-        if(newReturnCategory2.value()!="" && newReturnWeight2.value()!="" && newReturnQuantity2.value()!="")
+        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}','${weight}',${quantity},2,'${remark}',GETDATE(),NULL)`
+        if(newReturnCategory2.value()!="" && newReturnQuantity2.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory2.value()},'${newReturnCategory2.text()}',${newReturnWeight2.value()},${newReturnQuantity2.value()},2,'${newReturnRemark2.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory2.value()},'${newReturnCategory2.text()}','${newReturnWeight2.value()}',${newReturnQuantity2.value()},2,'${newReturnRemark2.value()}',GETDATE(),NULL) `
         }
-        if(newReturnCategory3.value()!="" && newReturnWeight3.value()!="" && newReturnQuantity3.value()!="")
+        if(newReturnCategory3.value()!="" && newReturnQuantity3.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory3.value()},'${newReturnCategory3.text()}',${newReturnWeight3.value()},${newReturnQuantity3.value()},2,'${newReturnRemark3.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory3.value()},'${newReturnCategory3.text()}','${newReturnWeight3.value()}',${newReturnQuantity3.value()},2,'${newReturnRemark3.value()}',GETDATE(),NULL) `
         }
-        if(newReturnCategory4.value()!="" && newReturnWeight4.value()!="" && newReturnQuantity4.value()!="")
+        if(newReturnCategory4.value()!="" && newReturnQuantity4.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory4.value()},'${newReturnCategory4.text()}',${newReturnWeight4.value()},${newReturnQuantity4.value()},2,'${newReturnRemark4.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory4.value()},'${newReturnCategory4.text()}','${newReturnWeight4.value()}',${newReturnQuantity4.value()},2,'${newReturnRemark4.value()}',GETDATE(),NULL) `
         }
-        if(newReturnCategory5.value()!="" && newReturnWeight5.value()!="" && newReturnQuantity5.value()!="")
+        if(newReturnCategory5.value()!="" && newReturnQuantity5.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory5.value()},'${newReturnCategory5.text()}',${newReturnWeight5.value()},${newReturnQuantity5.value()},2,'${newReturnRemark5.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory5.value()},'${newReturnCategory5.text()}','${newReturnWeight5.value()}',${newReturnQuantity5.value()},2,'${newReturnRemark5.value()}',GETDATE(),NULL) `
         }
-        if(newReturnCategory6.value()!="" && newReturnWeight6.value()!="" && newReturnQuantity6.value()!="")
+        if(newReturnCategory6.value()!="" && newReturnQuantity6.value()!="")
         {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory6.value()},'${newReturnCategory6.text()}',${newReturnWeight6.value()},${newReturnQuantity6.value()},2,'${newReturnRemark6.value()}',GETDATE(),NULL) `
+            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory6.value()},'${newReturnCategory6.text()}','${newReturnWeight6.value()}',${newReturnQuantity6.value()},2,'${newReturnRemark6.value()}',GETDATE(),NULL) `
         }
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
             getAllReturn(); //在此呼叫以確保執行順序
+            $('#newReturnForm')[0].reset();
             dbConn.close();
         }).catch(function (err) {
             console.log(err);
@@ -333,7 +340,7 @@ function saveEditReturn(){
         var weight = editReturnWeight.value();
         var quantity = editReturnQuantity.value();
         var remark = editReturnRemark.value();
-        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight=${weight},quantity=${quantity},type=2,remark='${remark}',modifyDate=GETDATE() where id=${id}`
+        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=2,remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
             getAllReturn(); //在此呼叫以確保執行順序

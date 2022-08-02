@@ -29,7 +29,7 @@ CREATE TABLE gas
     customerId int NOT NULL,
     categoryId int NOT NULL,
     category varchar(50) NOT NULL,
-    weight int NOT NULL,
+    weight varchar(10) NOT NULL,
     quantity int NOT NULL,
     type int NOT NULL, -- 1->sales, 2->return
     remark nvarchar(100),
