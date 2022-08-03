@@ -1,4 +1,0 @@
-appId: com.example.GasInventorySystem
-publish:
-  provider: github
-  token: [personal token here]
