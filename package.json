@@ -1,12 +1,18 @@
 {
-  "name": "Gas_Inventory_System",
+  "name": "Gas-Inventory-System",
   "version": "1.1.0",
   "description": "TestVersion",
   "main": "main.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/justinzhang528/electron.git"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
   "author": "Justinzhang",
   "license": "ISC",
@@ -59,11 +65,5 @@
         }
       ]
     }
-  },
-  "repository": {
-    "type" : "git",
-    "url" : "https://github.com/justinzhang528/electron.git"
-  },
-  "build": "electron-builder build --win --publish never",
-  "deploy": "electron-builder build --win --publish always"
+  }
 }
