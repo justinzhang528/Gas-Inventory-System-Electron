@@ -1,7 +1,7 @@
 {
   "name": "Gas-Inventory-System",
-  "version": "1.1.0",
-  "description": "TestVersion",
+  "version": "1.2.0",
+  "description": "",
   "main": "main.js",
   "repository": {
     "type" : "git",
