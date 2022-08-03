@@ -1,5 +1,5 @@
 {
-	"server": "103.134.207.148",
+	"server": "172.16.0.17",
 	"database" : "master",
 	"user": "sa",
 	"password": "admin12345"

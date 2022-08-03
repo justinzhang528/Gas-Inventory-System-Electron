@@ -244,29 +244,11 @@ var salesGrid = $("#salesGrid").kendoGrid({
         },
         { command: [{
             name: "Edit",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                editSalesId.value(data.id);
-                editSalesDate.value(data.date);
-                editSalesCustomerId.value(data.customerId);
-                editSalesCategoryId.value(data.categoryId);
-                editSalesCategory.value(data.categoryId);
-                editSalesWeight.value(data.weight);
-                editSalesQuantity.value(data.quantity);
-                editSalesRemark.value(data.remark); 
-                openEditSalesWindow();
-            }
+            template: '<button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" onclick="onEditSales(this)">Edit</button>'
           },
           {
             name: "Delete",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                openDeleteConfirmWindow(data.id,"Sales","Sales",deleteSales);
-            }
+            template: '<button class="k-button k-button-solid-secondary k-button-solid k-button-md k-rounded-md" onclick="onDeleteSales(this)">Delete</button>'
           }]
        }
     ],
@@ -297,6 +279,27 @@ var salesGrid = $("#salesGrid").kendoGrid({
     resizable:true
 }).data("kendoGrid");
 
+function onEditSales(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = salesGrid.dataItem(tr);
+    editSalesId.value(data.id);
+    editSalesDate.value(data.date);
+    editSalesCustomerId.value(data.customerId);
+    editSalesCategoryId.value(data.categoryId);
+    editSalesCategory.value(data.categoryId);
+    editSalesWeight.value(data.weight);
+    editSalesQuantity.value(data.quantity);
+    editSalesRemark.value(data.remark); 
+    openEditSalesWindow();
+}
+
+function onDeleteSales(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = salesGrid.dataItem(tr);
+    openDeleteConfirmWindow(data.id,"Sales","Sales",deleteSales);
+}
 
 function saveNewSales() {
     var dbConn = new mssql.ConnectionPool(sqlConfig);

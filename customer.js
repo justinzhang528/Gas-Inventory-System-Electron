@@ -150,27 +150,11 @@ var customerGrid = $("#customerGrid").kendoGrid({
         },
         { command: [{
             name: "Edit",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                editCustomerId.value(data.id);
-                editCustomerName.value(data.name);
-                editCustomerRegion.value(data.region);
-                editCustomerAddress.value(data.address);
-                editCustomerNumber.value(data.contactNumber);
-                editCustomerRemark.value(data.remark); 
-                openEditCustomerWindow();
-            }
+            template: '<button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" onclick="onEditCustomer(this)">Edit</button>'
           },
           {
             name: "Delete",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                openDeleteConfirmWindow(data.id,"Customer","Customer",deleteCustomer);
-            }
+            template: '<button class="k-button k-button-solid-secondary k-button-solid k-button-md k-rounded-md" onclick="onDeleteCustomer(this)">Delete</button>'
           }]
        }
     ],
@@ -198,6 +182,25 @@ var customerGrid = $("#customerGrid").kendoGrid({
     resizable:true
 }).data("kendoGrid");
 
+function onEditCustomer(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = customerGrid.dataItem(tr);
+    editCustomerId.value(data.id);
+    editCustomerName.value(data.name);
+    editCustomerRegion.value(data.region);
+    editCustomerAddress.value(data.address);
+    editCustomerNumber.value(data.contactNumber);
+    editCustomerRemark.value(data.remark); 
+    openEditCustomerWindow();
+}
+
+function onDeleteCustomer(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = customerGrid.dataItem(tr);
+    openDeleteConfirmWindow(data.id,"Customer","Customer",deleteCustomer);
+}
 
 function saveNewCustomer() {
     var dbConn = new mssql.ConnectionPool(sqlConfig);

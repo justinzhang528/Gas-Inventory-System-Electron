@@ -226,29 +226,11 @@ var returnGrid = $("#returnGrid").kendoGrid({
         },
         { command: [{
             name: "Edit",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                editReturnId.value(data.id);
-                editReturnDate.value(data.date);
-                editReturnCustomerId.value(data.customerId);
-                editReturnCategoryId.value(data.categoryId);
-                editReturnCategory.value(data.categoryId);
-                editReturnWeight.value(data.weight);
-                editReturnQuantity.value(data.quantity);
-                editReturnRemark.value(data.remark); 
-                openEditReturnWindow();
-            }
+            template: '<button class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md" onclick="onEditReturn(this)">Edit</button>'
           },
           {
             name: "Delete",
-            click: function(e) {
-                e.preventDefault();// prevent page scroll position change
-                var tr = $(e.target).closest("tr"); // get the current table row (tr)
-                var data = this.dataItem(tr);
-                openDeleteConfirmWindow(data.id,"Return","Retun",deleteReturn);
-            }
+            template: '<button class="k-button k-button-solid-secondary k-button-solid k-button-md k-rounded-md" onclick="onDeleteReturn(this)">Delete</button>'
           }]
        }
     ],
@@ -278,6 +260,28 @@ var returnGrid = $("#returnGrid").kendoGrid({
     },
     resizable:true
 }).data("kendoGrid");
+
+function onEditReturn(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = returnGrid.dataItem(tr);
+    editReturnId.value(data.id);
+    editReturnDate.value(data.date);
+    editReturnCustomerId.value(data.customerId);
+    editReturnCategoryId.value(data.categoryId);
+    editReturnCategory.value(data.categoryId);
+    editReturnWeight.value(data.weight);
+    editReturnQuantity.value(data.quantity);
+    editReturnRemark.value(data.remark); 
+    openEditReturnWindow();
+}
+
+function onDeleteReturn(e){
+    // e.preventDefault();// prevent page scroll position change
+    var tr = $(e).closest("tr"); // get the current table row (tr)
+    var data = returnGrid.dataItem(tr);
+    openDeleteConfirmWindow(data.id,"Return","Retun",deleteReturn);
+}
 
 
 function saveNewReturn() {
