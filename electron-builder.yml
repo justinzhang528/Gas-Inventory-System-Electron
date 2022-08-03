@@ -1,0 +1,4 @@
+appId: com.example.GasInventorySystem
+publish:
+  provider: github
+  token: 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
