@@ -24,6 +24,23 @@
       if (window.module) module = window.module;
     </script>
   </head>
+
+  <style>
+    #notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 200px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: white;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  
   <body>
 
     <div class="p-4 container">
@@ -486,6 +503,17 @@
       <button id="saveEditCustomerBtn" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Update</button>
     </div>
 
+    <!-- autoupdater message -->
+    <div id="notification" class="hidden">
+      <p id="message"></p>
+      <button id="close-button" onClick="closeNotification()">
+        Close
+      </button>
+      <button id="restart-button" onClick="restartApp()" class="hidden">
+        Restart
+      </button>
+    </div>
+
   </body>
 
   <script src="./renderer.js"></script>
@@ -494,4 +522,28 @@
   <script src="./sales.js"></script>
   <script src="./return.js"></script>
   <script src="./history.js"></script>
+  <script>
+    const notification = document.getElementById('notification');
+    const message = document.getElementById('message');
+    const restartButton = document.getElementById('restart-button');
+    ipcRenderer.on('update_available', () => {
+      ipcRenderer.removeAllListeners('update_available');
+      message.innerText = 'A new update is available. Downloading now...';
+      notification.classList.remove('hidden');
+    });
+    ipcRenderer.on('update_downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      restartButton.classList.remove('hidden');
+      notification.classList.remove('hidden');
+    });
+
+    function closeNotification() {
+      notification.classList.add('hidden');
+    }
+    
+    function restartApp() {
+      ipcRenderer.send('restart_app');
+    }
+  </script>
 </html>
