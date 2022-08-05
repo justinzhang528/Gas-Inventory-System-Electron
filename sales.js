@@ -174,8 +174,7 @@ $("#newSalesBtn").click(function() {
 $("#saveNewSalesBtn").click(function() {
     if (newSalesFormValidator.validate()) {
         saveNewSales();
-        newSalesWindow.close();
-        myAlert('Sales','Successfully saved!');        
+        newSalesWindow.close();  
         // getAllSales(); // 此方法移到saveEditSales()以確保執行順序
     }
 });
@@ -184,7 +183,6 @@ $("#saveEditSalesBtn").click(function() {
     if (editSalesFormValidator.validate()) {
         saveEditSales();
         editSalesWindow.close();
-        myAlert('Sales','Successfully updated!');        
         // getAllSales(); // 此方法移到saveEditSales()以確保執行順序
     }
 });
@@ -336,6 +334,7 @@ function saveNewSales() {
         }
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
+            myAlert('Sales','Successfully saved!');      
             getAllSales(); //在此呼叫以確保執行順序
             $('#newSalesForm')[0].reset();
             dbConn.close();
@@ -364,6 +363,7 @@ function saveEditSales(){
         var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=1,remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
+            myAlert('Sales','Successfully updated!');        
             getAllSales(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -372,6 +372,7 @@ function saveEditSales(){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Sales','DB Connection Error!');
     });
 }
 
@@ -406,6 +407,7 @@ function getAllSales(){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Sales','DB Connection Error!');
     });
 }
 
@@ -417,6 +419,7 @@ function deleteSales(id){
         var sql = `delete from ${table} where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('delete success');
+            myAlert("Sales", "Deleted Successfully!");
             getAllSales(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -425,6 +428,7 @@ function deleteSales(id){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Sales','DB Connection Error!');
     });
 }
 
@@ -452,6 +456,7 @@ function populateCustomerDropDownList(dropDownList, selectedValue){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Sales','DB Connection Error!');
     });
 }
 

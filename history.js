@@ -136,5 +136,6 @@ function getAllHistory(dateString){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('History','DB Connection Error!');
     });
 }

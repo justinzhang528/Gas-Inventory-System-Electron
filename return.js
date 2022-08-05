@@ -156,8 +156,7 @@ $("#newReturnBtn").click(function() {
 $("#saveNewReturnBtn").click(function() {
     if (newReturnFormValidator.validate()) {
         saveNewReturn();
-        newReturnWindow.close();
-        myAlert('Return','Successfully saved!');        
+        newReturnWindow.close();      
         // getAllReturn(); // 此方法移到saveEditReturn()以確保執行順序
     }
 });
@@ -166,7 +165,6 @@ $("#saveEditReturnBtn").click(function() {
     if (editReturnFormValidator.validate()) {
         saveEditReturn();
         editReturnWindow.close();
-        myAlert('Return','Successfully updated!');        
         // getAllReturn(); // 此方法移到saveEditReturn()以確保執行順序
     }
 });
@@ -319,6 +317,7 @@ function saveNewReturn() {
         }
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
+            myAlert('Return','Successfully saved!');
             getAllReturn(); //在此呼叫以確保執行順序
             $('#newReturnForm')[0].reset();
             dbConn.close();
@@ -328,6 +327,7 @@ function saveNewReturn() {
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Return','DB Connection Error!');
     });
 }
 
@@ -347,6 +347,7 @@ function saveEditReturn(){
         var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=2,remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
+            myAlert('Return','Successfully updated!');
             getAllReturn(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -355,6 +356,7 @@ function saveEditReturn(){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Return','DB Connection Error!');
     });
 }
 
@@ -389,6 +391,7 @@ function getAllReturn(){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Return','DB Connection Error!');
     });
 }
 
@@ -400,6 +403,7 @@ function deleteReturn(id){
         var sql = `delete from ${table} where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('delete success');
+            myAlert("Return", "Deleted Successfully!");
             getAllReturn(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -408,6 +412,7 @@ function deleteReturn(id){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Return','DB Connection Error!');
     });
 }
 

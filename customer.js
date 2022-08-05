@@ -64,7 +64,6 @@ function openDeleteConfirmWindow(id,deleteTitle,alertTitle,deleteFunc){
             text: "OK",
             action: function(e){
                 // e.sender is a reference to the dialog widget object
-                myAlert(alertTitle, "Deleted Successfully!");
                 deleteFunc(id);
                 // Returning false will prevent the closing of the dialog
                 return true;
@@ -91,8 +90,7 @@ $("#newCustomerBtn").click(function() {
 $("#saveNewCustomerBtn").click(function() {
     if (newCustomerFormValidator.validate()) {
         saveNewCustomer();
-        newCustomerWindow.close();
-        myAlert('Customer','Saved Successfully!');        
+        newCustomerWindow.close();      
         // getAllCustomer(); // 此方法移到saveNewCustomer()以確保執行順序
     }
 });
@@ -100,8 +98,7 @@ $("#saveNewCustomerBtn").click(function() {
 $("#saveEditCustomerBtn").click(function() {
     if (editCustomerFormValidator.validate()) {
         saveEditCustomer();
-        editCustomerWindow.close();
-        myAlert('Customer','Updated Successfully!');        
+        editCustomerWindow.close();       
         // getAllCustomer(); // 此方法移到saveEditCustomer()以確保執行順序
     }
 });
@@ -215,7 +212,8 @@ function saveNewCustomer() {
         var sql = `insert into ${table} values('${name}','${region}','${address}','${contactNumber}','${remark}',GETDATE(),NULL)`
         request.query(sql).then(function (recordSet) {
             console.log('insert success')
-            getAllCustomer(); //在此呼叫以確保執行順序
+            getAllCustomer(); //在此呼叫以確保執行順序            
+            myAlert('Customer','Saved Successfully!');
             dbConn.close();
         }).catch(function (err) {
             console.log(err);
@@ -223,6 +221,7 @@ function saveNewCustomer() {
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Customer','DB Connection Error!');
     });
 }
 
@@ -240,6 +239,7 @@ function saveEditCustomer() {
         var sql = `update ${table} set name='${name}',region='${region}',address='${address}',contactNumber='${contactNumber}',remark='${remark}',modifyDate=GETDATE() where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('update success')
+            myAlert('Customer','Updated Successfully!'); 
             getAllCustomer(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -248,6 +248,7 @@ function saveEditCustomer() {
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Customer','DB Connection Error!');
     });
 }
 
@@ -281,6 +282,7 @@ function getAllCustomer() {
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Customer','DB Connection Error!');
     });
 }
 
@@ -292,6 +294,7 @@ function deleteCustomer(id){
         var sql = `delete from ${table} where id=${id}`
         request.query(sql).then(function (recordSet) {
             console.log('delete success');
+            myAlert("Customer", "Deleted Successfully!");
             getAllCustomer(); //在此呼叫以確保執行順序
             dbConn.close();
         }).catch(function (err) {
@@ -300,5 +303,6 @@ function deleteCustomer(id){
         });
     }).catch(function (err) {
         console.log(err);
+        myAlert('Customer','DB Connection Error!');
     });
 }
