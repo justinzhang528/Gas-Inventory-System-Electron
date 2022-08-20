@@ -192,7 +192,7 @@ var returnGrid = $("#returnGrid").kendoGrid({
             width: 80,
             headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
-            field: "date",
+            field: "returnDate",
             title: "Date",
             headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
@@ -244,7 +244,7 @@ var returnGrid = $("#returnGrid").kendoGrid({
     search: {
         fields: [
             { name: "id", operator: "equal" },
-            { name: "date", operator: "equal" },
+            { name: "returnDate", operator: "equal" },
             { name: "name", operator: "equal" },
             { name: "region", operator: "equal" },
             { name: "category", operator: "equal" },
@@ -264,7 +264,7 @@ function onEditReturn(e){
     var tr = $(e).closest("tr"); // get the current table row (tr)
     var data = returnGrid.dataItem(tr);
     editReturnId.value(data.id);
-    editReturnDate.value(data.date);
+    editReturnDate.value(data.returnDate);
     editReturnCustomerId.value(data.customerId);
     editReturnCategoryId.value(data.categoryId);
     editReturnCategory.value(data.categoryId);
@@ -282,99 +282,87 @@ function onDeleteReturn(e){
 }
 
 
-function saveNewReturn() {
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas';
-        var date = kendo.toString(newReturnDate.value(), 'MM/dd/yyyy');
-        var customerId = newReturnName.value();
-        var categoryId = newReturnCategory.value();
-        var category = newReturnCategory.text();
-        var weight = newReturnWeight.value();
-        var quantity = newReturnQuantity.value();
-        var remark = newReturnRemark.value();
-        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}','${weight}',${quantity},2,'${remark}',GETDATE(),NULL)`
-        if(newReturnCategory2.value()!="" && newReturnQuantity2.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory2.value()},'${newReturnCategory2.text()}','${newReturnWeight2.value()}',${newReturnQuantity2.value()},2,'${newReturnRemark2.value()}',GETDATE(),NULL) `
-        }
-        if(newReturnCategory3.value()!="" && newReturnQuantity3.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory3.value()},'${newReturnCategory3.text()}','${newReturnWeight3.value()}',${newReturnQuantity3.value()},2,'${newReturnRemark3.value()}',GETDATE(),NULL) `
-        }
-        if(newReturnCategory4.value()!="" && newReturnQuantity4.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory4.value()},'${newReturnCategory4.text()}','${newReturnWeight4.value()}',${newReturnQuantity4.value()},2,'${newReturnRemark4.value()}',GETDATE(),NULL) `
-        }
-        if(newReturnCategory5.value()!="" && newReturnQuantity5.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory5.value()},'${newReturnCategory5.text()}','${newReturnWeight5.value()}',${newReturnQuantity5.value()},2,'${newReturnRemark5.value()}',GETDATE(),NULL) `
-        }
-        if(newReturnCategory6.value()!="" && newReturnQuantity6.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newReturnCategory6.value()},'${newReturnCategory6.text()}','${newReturnWeight6.value()}',${newReturnQuantity6.value()},2,'${newReturnRemark6.value()}',GETDATE(),NULL) `
-        }
-        request.query(sql).then(function (recordSet) {
+function saveNewReturn() {var table = 'gas';
+    var date = kendo.toString(newReturnDate.value(), 'MM/dd/yyyy');
+    date = "#" + date + "#";
+    var customerId = newReturnName.value();
+    var categoryId = newReturnCategory.value();
+    var category = newReturnCategory.text();
+    var weight = newReturnWeight.value();
+    var quantity = newReturnQuantity.value();
+    var remark = newReturnRemark.value();
+    var sql = `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${categoryId},'${category}','${weight}',${quantity},2,'${remark}',Date(),NULL) `
+    if(newReturnCategory2.value()!="" && newReturnQuantity2.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newReturnCategory2.value()},'${newReturnCategory2.text()}','${newReturnWeight2.value()}',${newReturnQuantity2.value()},2,'${newReturnRemark2.value()}',Date(),NULL) `
+    }
+    if(newReturnCategory3.value()!="" && newReturnQuantity3.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newReturnCategory3.value()},'${newReturnCategory3.text()}','${newReturnWeight3.value()}',${newReturnQuantity3.value()},2,'${newReturnRemark3.value()}',Date(),NULL) `
+    }
+    if(newReturnCategory4.value()!="" && newReturnQuantity4.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newReturnCategory4.value()},'${newReturnCategory4.text()}','${newReturnWeight4.value()}',${newReturnQuantity4.value()},2,'${newReturnRemark4.value()}',Date(),NULL) `
+    }
+    if(newReturnCategory5.value()!="" && newReturnQuantity5.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newReturnCategory5.value()},'${newReturnCategory5.text()}','${newReturnWeight5.value()}',${newReturnQuantity5.value()},2,'${newReturnRemark5.value()}',Date(),NULL) `
+    }
+    if(newReturnCategory6.value()!="" && newReturnQuantity6.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newReturnCategory6.value()},'${newReturnCategory6.text()}','${newReturnWeight6.value()}',${newReturnQuantity6.value()},2,'${newReturnRemark6.value()}',Date(),NULL) `
+    }
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('insert success')
-            myAlert('Return','Successfully saved!');
+            myAlert('Return','Successfully saved!');      
             getAllReturn(); //在此呼叫以確保執行順序
             $('#newReturnForm')[0].reset();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Return','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Return','DB Connection Error!');
-    });
 }
 
-function saveEditReturn(){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas';
-        var id = editReturnId.value();
-        var date = kendo.toString(editReturnDate.value(), 'MM/dd/yyyy');
-        var customerId = editReturnName.value();
-        var categoryId = editReturnCategory.value();
-        var category = editReturnCategory.text();
-        var weight = editReturnWeight.value();
-        var quantity = editReturnQuantity.value();
-        var remark = editReturnRemark.value();
-        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=2,remark='${remark}',modifyDate=GETDATE() where id=${id}`
-        request.query(sql).then(function (recordSet) {
+function saveEditReturn(){var table = 'gas';
+    var id = editReturnId.value();
+    var date = kendo.toString(editReturnDate.value(), 'MM/dd/yyyy');
+    var customerId = editReturnName.value();
+    var categoryId = editReturnCategory.value();
+    var category = editReturnCategory.text();
+    var weight = editReturnWeight.value();
+    var quantity = editReturnQuantity.value();
+    var remark = editReturnRemark.value();
+    var sql = `update ${table} set gasDate='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=2,remark='${remark}',modifyDate=Date() where id=${id}`
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('update success')
-            myAlert('Return','Successfully updated!');
+            myAlert('Return','Successfully updated!');        
             getAllReturn(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Return','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Return','DB Connection Error!');
-    });
 }
 
 function getAllReturn(){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table1 = 'customer'
-        var table2 = 'gas'
-        var sql = `select g.id, CONVERT(VARCHAR(20),g.date,101) as date, g.customerId, c.name as name, c.region as region, g.categoryId, g.category, g.weight, g.quantity, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 2`
-        request.query(sql).then(function (recordSet) {
+    var table1 = 'customer'
+    var table2 = 'gas'
+    var sql = `select g.id, Format(g.gasDate, "mm/dd/yyyy") as returnDate, g.customerId, c.name as name, c.region as region, g.categoryId, g.category, g.weight, g.quantity, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 2`
+    connection
+        .query(sql)
+        .then(data => {
             console.log('query success');
             
             // reset datagrid
             returnGrid.dataSource.data([]);
             returnGrid.setDataSource([]);
             var returnDataSource = {
-                data: recordSet.recordset,
+                data: data,
                 schema: {
                     model: { categoryId: "categoryId", customerId: "customerId" }
                 },  
@@ -384,36 +372,27 @@ function getAllReturn(){
             }
             returnGrid.setDataSource(returnDataSource);
             returnGrid.refresh();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Return','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Return','DB Connection Error!');
-    });
 }
 
-function deleteReturn(id){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas'
-        var sql = `delete from ${table} where id=${id}`
-        request.query(sql).then(function (recordSet) {
+function deleteReturn(id){          
+    var table = 'gas'
+    var sql = `delete from ${table} where id=${id}`
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('delete success');
             myAlert("Return", "Deleted Successfully!");
             getAllReturn(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Return','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Return','DB Connection Error!');
-    });
 }
 
 function changeSelectedValue(dropDownList){

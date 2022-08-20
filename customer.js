@@ -199,73 +199,60 @@ function onDeleteCustomer(e){
     openDeleteConfirmWindow(data.id,"Customer","Customer",deleteCustomer);
 }
 
-function saveNewCustomer() {
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'customer'
-        var name = newCustomerName.value();
-        var region = newCustomerRegion.value();
-        var address = newCustomerAddress.value();
-        var contactNumber = newCustomerNumber.value();
-        var remark = newCustomerRemark.value();
-        var sql = `insert into ${table} values('${name}','${region}','${address}','${contactNumber}','${remark}',GETDATE(),NULL)`
-        request.query(sql).then(function (recordSet) {
-            console.log('insert success')
+function saveNewCustomer() {    
+    var table = 'customer'
+    var name = newCustomerName.value();
+    var region = newCustomerRegion.value();
+    var address = newCustomerAddress.value();
+    var contactNumber = newCustomerNumber.value();
+    var remark = newCustomerRemark.value();
+    var sql = `insert into ${table}(name,region,address,contactNumber,remark,createDate,modifyDate) values('${name}','${region}','${address}','${contactNumber}','${remark}',Date(),NULL)`
+    connection
+        .execute(sql)
+        .then(data => {
             getAllCustomer(); //在此呼叫以確保執行順序            
             myAlert('Customer','Saved Successfully!');
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Customer','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Customer','DB Connection Error!');
-    });
 }
 
-function saveEditCustomer() {
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'customer'
-        var id = editCustomerId.value();
-        var name = editCustomerName.value();
-        var region = editCustomerRegion.value();
-        var address = editCustomerAddress.value();
-        var contactNumber = editCustomerNumber.value();
-        var remark = editCustomerRemark.value();
-        var sql = `update ${table} set name='${name}',region='${region}',address='${address}',contactNumber='${contactNumber}',remark='${remark}',modifyDate=GETDATE() where id=${id}`
-        request.query(sql).then(function (recordSet) {
-            console.log('update success')
-            myAlert('Customer','Updated Successfully!'); 
+function saveEditCustomer() {    
+    var table = 'customer'
+    var id = editCustomerId.value();
+    var name = editCustomerName.value();
+    var region = editCustomerRegion.value();
+    var address = editCustomerAddress.value();
+    var contactNumber = editCustomerNumber.value();
+    var remark = editCustomerRemark.value();
+    var sql = `update ${table} set name='${name}',region='${region}',address='${address}',contactNumber='${contactNumber}',remark='${remark}',modifyDate=Date() where id=${id}`
+    connection
+        .execute(sql)
+        .then(data => {
+            myAlert('Customer','Updated Successfully!');
             getAllCustomer(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            Alert('Customer','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Customer','DB Connection Error!');
-    });
 }
 
 function getAllCustomer() {
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'customer'
-        var sql = `select id,name,region,address,contactNumber,remark from ${table}`
-        request.query(sql).then(function (recordSet) {
+    var table = 'customer'
+    var sql = `select id,name,region,address,contactNumber,remark from ${table}`
+    connection
+        .query(sql)
+        .then(data => {
             console.log('query success');
 
             // reset datagrid
             customerGrid.dataSource.data([]);
             customerGrid.setDataSource([]);
             var customerDataSource = {
-                data: recordSet.recordset,
+                data: data,
                 schema: {
                     model: { id: "id" }
                 },  
@@ -275,34 +262,25 @@ function getAllCustomer() {
             }
             customerGrid.setDataSource(customerDataSource);
             customerGrid.refresh();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Customer','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Customer','DB Connection Error!');
-    });
 }
 
 function deleteCustomer(id){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'customer'
-        var sql = `delete from ${table} where id=${id}`
-        request.query(sql).then(function (recordSet) {
-            console.log('delete success');
-            myAlert("Customer", "Deleted Successfully!");
-            getAllCustomer(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
-        });
-    }).catch(function (err) {
-        console.log(err);
+    var table = 'customer'
+    var sql = `delete from ${table} where id=${id}`
+    connection
+    .execute(sql)
+    .then(data => {
+        console.log('delete success');
+        myAlert("Customer", "Deleted Successfully!");
+        getAllCustomer(); //在此呼叫以確保執行順序
+    })
+    .catch(error => {
+        console.error(JSON.stringify(error));
         myAlert('Customer','DB Connection Error!');
     });
 }

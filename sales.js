@@ -210,7 +210,7 @@ var salesGrid = $("#salesGrid").kendoGrid({
             width: 80,
             headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
-            field: "date",
+            field: "salesDate",
             title: "Date",
             headerAttributes: {style: "font-size: 14px; font-weight: bold; color:black;"}
         }, {
@@ -262,7 +262,7 @@ var salesGrid = $("#salesGrid").kendoGrid({
     search: {
         fields: [
             { name: "id", operator: "equal" },
-            { name: "date", operator: "equal" },
+            { name: "salesDate", operator: "equal" },
             { name: "name", operator: "equal" },
             { name: "region", operator: "equal" },
             { name: "category", operator: "equal" },
@@ -282,7 +282,7 @@ function onEditSales(e){
     var tr = $(e).closest("tr"); // get the current table row (tr)
     var data = salesGrid.dataItem(tr);
     editSalesId.value(data.id);
-    editSalesDate.value(data.date);
+    editSalesDate.value(data.salesDate);
     editSalesCustomerId.value(data.customerId);
     editSalesCategoryId.value(data.categoryId);
     editSalesCategory.value(data.categoryId);
@@ -300,97 +300,88 @@ function onDeleteSales(e){
 }
 
 function saveNewSales() {
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas';
-        var date = kendo.toString(newSalesDate.value(), 'MM/dd/yyyy');
-        var customerId = newSalesName.value();
-        var categoryId = newSalesCategory.value();
-        var category = newSalesCategory.text();
-        var weight = newSalesWeight.value();
-        var quantity = newSalesQuantity.value();
-        var remark = newSalesRemark.value();
-        var sql = `insert into ${table} values('${date}',${customerId},${categoryId},'${category}','${weight}',${quantity},1,'${remark}',GETDATE(),NULL) `
-        if(newSalesCategory2.value()!="" && newSalesQuantity2.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory2.value()},'${newSalesCategory2.text()}','${newSalesWeight2.value()}',${newSalesQuantity2.value()},1,'${newSalesRemark2.value()}',GETDATE(),NULL) `
-        }
-        if(newSalesCategory3.value()!="" && newSalesQuantity3.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory3.value()},'${newSalesCategory3.text()}','${newSalesWeight3.value()}',${newSalesQuantity3.value()},1,'${newSalesRemark3.value()}',GETDATE(),NULL) `
-        }
-        if(newSalesCategory4.value()!="" && newSalesQuantity4.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory4.value()},'${newSalesCategory4.text()}','${newSalesWeight4.value()}',${newSalesQuantity4.value()},1,'${newSalesRemark4.value()}',GETDATE(),NULL) `
-        }
-        if(newSalesCategory5.value()!="" && newSalesQuantity5.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory5.value()},'${newSalesCategory5.text()}','${newSalesWeight5.value()}',${newSalesQuantity5.value()},1,'${newSalesRemark5.value()}',GETDATE(),NULL) `
-        }
-        if(newSalesCategory6.value()!="" && newSalesQuantity6.value()!="")
-        {
-            sql += `insert into ${table} values('${date}',${customerId},${newSalesCategory6.value()},'${newSalesCategory6.text()}','${newSalesWeight6.value()}',${newSalesQuantity6.value()},1,'${newSalesRemark6.value()}',GETDATE(),NULL) `
-        }
-        request.query(sql).then(function (recordSet) {
+    var table = 'gas';
+    var date = kendo.toString(newSalesDate.value(), 'MM/dd/yyyy');
+    date = "#" + date + "#";
+    var customerId = newSalesName.value();
+    var categoryId = newSalesCategory.value();
+    var category = newSalesCategory.text();
+    var weight = newSalesWeight.value();
+    var quantity = newSalesQuantity.value();
+    var remark = newSalesRemark.value();
+    var sql = `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${categoryId},'${category}','${weight}',${quantity},1,'${remark}',Date(),NULL) `
+    if(newSalesCategory2.value()!="" && newSalesQuantity2.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newSalesCategory2.value()},'${newSalesCategory2.text()}','${newSalesWeight2.value()}',${newSalesQuantity2.value()},1,'${newSalesRemark2.value()}',Date(),NULL) `
+    }
+    if(newSalesCategory3.value()!="" && newSalesQuantity3.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newSalesCategory3.value()},'${newSalesCategory3.text()}','${newSalesWeight3.value()}',${newSalesQuantity3.value()},1,'${newSalesRemark3.value()}',Date(),NULL) `
+    }
+    if(newSalesCategory4.value()!="" && newSalesQuantity4.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newSalesCategory4.value()},'${newSalesCategory4.text()}','${newSalesWeight4.value()}',${newSalesQuantity4.value()},1,'${newSalesRemark4.value()}',Date(),NULL) `
+    }
+    if(newSalesCategory5.value()!="" && newSalesQuantity5.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newSalesCategory5.value()},'${newSalesCategory5.text()}','${newSalesWeight5.value()}',${newSalesQuantity5.value()},1,'${newSalesRemark5.value()}',Date(),NULL) `
+    }
+    if(newSalesCategory6.value()!="" && newSalesQuantity6.value()!="")
+    {
+        sql += `insert into ${table}(gasDate,customerId,categoryId,category,weight,quantity,type,remark,createDate,modifyDate) values(${date},${customerId},${newSalesCategory6.value()},'${newSalesCategory6.text()}','${newSalesWeight6.value()}',${newSalesQuantity6.value()},1,'${newSalesRemark6.value()}',Date(),NULL) `
+    }
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('insert success')
             myAlert('Sales','Successfully saved!');      
             getAllSales(); //在此呼叫以確保執行順序
             $('#newSalesForm')[0].reset();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Sales','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-    });
 }
 
 function saveEditSales(){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas';
-        var id = editSalesId.value();
-        var date = kendo.toString(editSalesDate.value(), 'MM/dd/yyyy');
-        var customerId = editSalesName.value();
-        var categoryId = editSalesCategory.value();
-        var category = editSalesCategory.text();
-        var weight = editSalesWeight.value();
-        var quantity = editSalesQuantity.value();
-        var remark = editSalesRemark.value();
-        var sql = `update ${table} set date='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=1,remark='${remark}',modifyDate=GETDATE() where id=${id}`
-        request.query(sql).then(function (recordSet) {
+    var table = 'gas';
+    var id = editSalesId.value();
+    var date = kendo.toString(editSalesDate.value(), 'MM/dd/yyyy');
+    var customerId = editSalesName.value();
+    var categoryId = editSalesCategory.value();
+    var category = editSalesCategory.text();
+    var weight = editSalesWeight.value();
+    var quantity = editSalesQuantity.value();
+    var remark = editSalesRemark.value();
+    var sql = `update ${table} set gasDate='${date}',customerId=${customerId},categoryId=${categoryId},category='${category}',weight='${weight}',quantity=${quantity},type=1,remark='${remark}',modifyDate=Date() where id=${id}`
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('update success')
             myAlert('Sales','Successfully updated!');        
             getAllSales(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Sales','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Sales','DB Connection Error!');
-    });
 }
 
-function getAllSales(){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table1 = 'customer'
-        var table2 = 'gas'
-        var sql = `select g.id, CONVERT(VARCHAR(20),g.date,101) as date, g.customerId, c.name as name, c.region as region, g.categoryId, g.category, g.weight, g.quantity, g.weight*g.quantity as totalWeight, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 1`
-        request.query(sql).then(function (recordSet) {
+function getAllSales(){    
+    var table1 = 'customer'
+    var table2 = 'gas'
+    var sql = `select g.id, Format(g.gasDate, "mm/dd/yyyy") as salesDate, g.customerId, c.name as name, c.region as region, g.categoryId, g.category, g.weight, g.quantity, g.remark from ${table1} as c inner join ${table2} as g on c.id = g.customerId where g.type = 1`
+    connection
+        .query(sql)
+        .then(data => {
             console.log('query success');
             
             // reset datagrid
             salesGrid.dataSource.data([]);
             salesGrid.setDataSource([]);
             var salesDataSource = {
-                data: recordSet.recordset,
+                data: data,
                 schema: {
                     model: { categoryId: "categoryId", customerId: "customerId" }
                 },  
@@ -400,64 +391,50 @@ function getAllSales(){
             }
             salesGrid.setDataSource(salesDataSource);
             salesGrid.refresh();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Sales','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Sales','DB Connection Error!');
-    });
 }
 
-function deleteSales(id){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'gas'
-        var sql = `delete from ${table} where id=${id}`
-        request.query(sql).then(function (recordSet) {
+function deleteSales(id){    
+    var table = 'gas'
+    var sql = `delete from ${table} where id=${id}`
+    connection
+        .execute(sql)
+        .then(data => {
             console.log('delete success');
             myAlert("Sales", "Deleted Successfully!");
             getAllSales(); //在此呼叫以確保執行順序
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Sales','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Sales','DB Connection Error!');
-    });
 }
 
-function populateCustomerDropDownList(dropDownList, selectedValue){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var table = 'customer'
-        var sql = `select id,name,region from ${table}`
-        dropDownList.setDataSource([]);
-        dropDownList.dataSource.add({
-            "text": "", 
-            "value": ""});
-        request.query(sql).then(function (recordSet) {
-          for(const record of recordSet.recordset){
-            dropDownList.dataSource.add({
-                "text": record.name + ' (' + record.region + ')',
-                "value": record.id});
-          }
-            dropDownList.value(selectedValue);
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+function populateCustomerDropDownList(dropDownList, selectedValue){    
+    var table = 'customer'
+    var sql = `select id,name,region from ${table}`
+    dropDownList.setDataSource([]);
+    dropDownList.dataSource.add({
+        "text": "", 
+        "value": ""});
+    connection
+        .query(sql)
+        .then(data => {
+            for(const d of data){
+              dropDownList.dataSource.add({
+                  "text": d.name + ' (' + d.region + ')',
+                  "value": d.id});
+            }
+              dropDownList.value(selectedValue);
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('Sales','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('Sales','DB Connection Error!');
-    });
 }
 
 function changeSelectedValue(dropDownList){

@@ -19,7 +19,7 @@ $("#dateSearchBtn").click(function(){
     if(startDate.value()<=endDate.value() && startDate.value()!=null && endDate.value()!=null){
         var startDateValue = kendo.toString(startDate.value(), 'MM/dd/yyyy');
         var endDateValue = kendo.toString(endDate.value(), 'MM/dd/yyyy');
-        var dateString = `and (date between '${startDateValue}' and '${endDateValue}') `;
+        var dateString = `and (gasDate between #${startDateValue}# and #${endDateValue}#) `;
         getAllHistory(dateString);
     }else{
         myAlert('Search','Date Format Error!');
@@ -107,35 +107,33 @@ var historyGrid = $("#historyGrid").kendoGrid({
 }).data("kendoGrid");
 
 function getAllHistory(dateString){
-    var dbConn = new mssql.ConnectionPool(sqlConfig);
-    dbConn.connect().then(function () {
-        var request = new mssql.Request(dbConn);
-        var sql = `select c.name as name, c.region as region, t.category as category, t.weight as weight, t.totalSalesQuantity, t.totalReturnQuantity, t.totalQuantityInUser, c.remark as remark from
-        (select s.customerId, s.categoryId, s.category, s.weight, s.totalSalesQuantity, ISNULL(r.totalReturnQuantity, 0 ) as totalReturnQuantity, (s.totalSalesQuantity - ISNULL(r.totalReturnQuantity,0)) as totalQuantityInUser from 
-            (select customerId, categoryId, category, weight, sum(quantity) as totalSalesQuantity from gas where type=1 ${dateString}group by category, weight, categoryId, customerId) as s left join
-            (select customerId, categoryId, category, weight, sum(quantity) as totalReturnQuantity from gas where type=2 ${dateString}group by category, weight, categoryId, customerId) as r 
-            on s.customerId = r.customerId and s.categoryId = r.categoryId and s.weight = r.weight) as t inner join customer as c on c.id = t.customerId ORDER BY c.name`
-        request.query(sql).then(function (recordSet) {
+    // var sql = `select c.name as name, c.region as region, t.category as category, t.weight as weight, t.totalSalesQuantity, t.totalReturnQuantity, t.totalQuantityInUser, c.remark as remark from
+    //     (select s.customerId, s.categoryId, s.category, s.weight, s.totalSalesQuantity, IIF(r.totalReturnQuantity IS NULL, 0, r.totalReturnQuantity) as totalReturnQuantity, (s.totalSalesQuantity - IIF(r.totalReturnQuantity IS NULL, 0, r.totalReturnQuantity)) as totalQuantityInUser from 
+    //         (select customerId, categoryId, category, weight, sum(quantity) as totalSalesQuantity from gas where type=1 ${dateString}group by category, weight, categoryId, customerId) as s left join
+    //         (select customerId, categoryId, category, weight, sum(quantity) as totalReturnQuantity from gas where type=2 ${dateString}group by category, weight, categoryId, customerId) as r 
+    //         on s.customerId = r.customerId and s.categoryId = r.categoryId and s.weight = r.weight) as t inner join customer as c on c.id = t.customerId ORDER BY c.name`
+    var sql = `SELECT * INTO #tempTable FROM gas
+    select * from tempTable`
+    console.log(sql)
+    connection
+        .query(sql)
+        .then(data => {
             console.log('query success');
-
+            console.log(data);
             // reset datagrid
             historyGrid.dataSource.data([]);
             historyGrid.setDataSource([]);
             var historyDataSource = {
-                data: recordSet.recordset, 
+                data: data, 
                 batch: true,
                 pageSize: 10,
                 autoSync: true
             }
             historyGrid.setDataSource(historyDataSource);
             historyGrid.refresh();
-            dbConn.close();
-        }).catch(function (err) {
-            console.log(err);
-            dbConn.close();
+        })
+        .catch(error => {
+            console.error(JSON.stringify(error));
+            myAlert('History','DB Connection Error!');
         });
-    }).catch(function (err) {
-        console.log(err);
-        myAlert('History','DB Connection Error!');
-    });
 }
