@@ -1,3 +1,6 @@
+USE master;
+GO
+
 CREATE TABLE customer
 (  
     id int IDENTITY(1,1) PRIMARY KEY,
